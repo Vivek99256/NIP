@@ -1,0 +1,856 @@
+{
+  "users": [
+    [
+      "usr-admin-01",
+      {
+        "id": "usr-admin-01",
+        "mobileNumber": "+919000000001",
+        "passwordHash": "Password123",
+        "role": "ADMIN",
+        "status": "ACTIVE",
+        "mobileVerifiedAt": "2026-01-01T00:00:00.000Z",
+        "createdAt": "2026-01-01T00:00:00.000Z",
+        "updatedAt": "2026-01-01T00:00:00.000Z"
+      }
+    ],
+    [
+      "usr-doc-01",
+      {
+        "id": "usr-doc-01",
+        "mobileNumber": "+919820011223",
+        "passwordHash": "Password123",
+        "role": "DOCTOR",
+        "status": "ACTIVE",
+        "mobileVerifiedAt": "2026-01-05T00:00:00.000Z",
+        "createdAt": "2026-01-05T00:00:00.000Z",
+        "updatedAt": "2026-01-05T00:00:00.000Z"
+      }
+    ],
+    [
+      "usr-doc-02",
+      {
+        "id": "usr-doc-02",
+        "mobileNumber": "+919820022334",
+        "passwordHash": "Password123",
+        "role": "DOCTOR",
+        "status": "ACTIVE",
+        "mobileVerifiedAt": "2026-01-10T00:00:00.000Z",
+        "createdAt": "2026-01-10T00:00:00.000Z",
+        "updatedAt": "2026-01-10T00:00:00.000Z"
+      }
+    ],
+    [
+      "usr-doc-03",
+      {
+        "id": "usr-doc-03",
+        "mobileNumber": "+919820044556",
+        "passwordHash": "Password123",
+        "role": "DOCTOR",
+        "status": "PENDING_VERIFICATION",
+        "mobileVerifiedAt": "2026-02-01T00:00:00.000Z",
+        "createdAt": "2026-02-01T00:00:00.000Z",
+        "updatedAt": "2026-02-01T00:00:00.000Z"
+      }
+    ],
+    [
+      "usr-pat-01",
+      {
+        "id": "usr-pat-01",
+        "mobileNumber": "+919876543210",
+        "passwordHash": "Password123",
+        "role": "PATIENT",
+        "status": "ACTIVE",
+        "mobileVerifiedAt": "2026-01-15T00:00:00.000Z",
+        "createdAt": "2026-01-15T00:00:00.000Z",
+        "updatedAt": "2026-01-15T00:00:00.000Z"
+      }
+    ],
+    [
+      "usr-pat-02",
+      {
+        "id": "usr-pat-02",
+        "mobileNumber": "+919876543211",
+        "passwordHash": "Password123",
+        "role": "PATIENT",
+        "status": "ACTIVE",
+        "mobileVerifiedAt": "2026-01-20T00:00:00.000Z",
+        "createdAt": "2026-01-20T00:00:00.000Z",
+        "updatedAt": "2026-01-20T00:00:00.000Z"
+      }
+    ],
+    [
+      "usr-pat-1793347087864",
+      {
+        "id": "usr-pat-1793347087864",
+        "mobileNumber": "+919811122233",
+        "passwordHash": "3873206c6998c5a778c821f9a9cade62:305a33b0aa837a2935ba1bf3e44c48e4751ec03604e457b6f72084036c6d603e138df17cd1102c108c1e50c4499cbfac18bdea7c98d53e07e067ecef056f1bf3",
+        "role": "PATIENT",
+        "status": "ACTIVE",
+        "mobileVerifiedAt": "2026-10-30T07:58:07.864Z",
+        "createdAt": "2026-10-30T07:58:07.864Z",
+        "updatedAt": "2026-10-30T07:58:07.864Z"
+      }
+    ],
+    [
+      "usr-pat-1793347087895",
+      {
+        "id": "usr-pat-1793347087895",
+        "mobileNumber": "+919988776655",
+        "passwordHash": "a6e10cbdb5d01e2bec1089ac3976c94b:22221b7e2b4cac463d5fee1edec1e9987aa6fef73f9a673c94db64d7399649063f155a3bd6a141fb8eb4904155120b7037c9eb2be6e9148e6fb69bba412fce24",
+        "role": "PATIENT",
+        "status": "ACTIVE",
+        "mobileVerifiedAt": "2026-10-30T07:58:07.895Z",
+        "createdAt": "2026-10-30T07:58:07.895Z",
+        "updatedAt": "2026-10-30T07:58:07.895Z"
+      }
+    ],
+    [
+      "usr-doc-1793347087924",
+      {
+        "id": "usr-doc-1793347087924",
+        "mobileNumber": "+919833344455",
+        "passwordHash": "f471a858410fafdf6206cef4b366d202:09db84ffd984cfbdcb7e1ee180055be9ea61d8491bfe55bbcb608e4769e95cebc5fbcfd3999e17ced1c1a4bdc8d1315fc164c06866ffc6a718fb1ed553e52177",
+        "role": "DOCTOR",
+        "status": "ACTIVE",
+        "mobileVerifiedAt": "2026-10-30T07:58:07.924Z",
+        "createdAt": "2026-10-30T07:58:07.924Z",
+        "updatedAt": "2026-10-30T07:58:07.924Z"
+      }
+    ],
+    [
+      "usr-pat-1793349570309",
+      {
+        "id": "usr-pat-1793349570309",
+        "mobileNumber": "+919925642448",
+        "passwordHash": "19f5ec63e23e6b09af4dca6e62e4e6a0:110f228693cf295f217b9a0d3ebd1f30b9dc3bc10f135c2084de8cde684cd6f70ca941c6134f64e3568f580594df8bb9e3fd7d466ea1268e5a6282de1838e481",
+        "role": "PATIENT",
+        "status": "ACTIVE",
+        "mobileVerifiedAt": "2026-10-30T08:39:30.309Z",
+        "createdAt": "2026-10-30T08:39:30.309Z",
+        "updatedAt": "2026-10-30T08:39:30.309Z"
+      }
+    ]
+  ],
+  "patients": [
+    [
+      "pat-prof-01",
+      {
+        "id": "pat-prof-01",
+        "patientId": "PAT-2026-0001",
+        "userId": "usr-pat-01",
+        "fullName": "Rohan Verma",
+        "dateOfBirth": "1990-05-14T00:00:00.000Z",
+        "gender": "MALE",
+        "bloodGroup": "O_POSITIVE",
+        "emergencyContactName": "Meera Verma (Spouse)",
+        "emergencyContactPhone": "+919876500001",
+        "address": "Flat 402, Green Meadows, Sector 18, Navi Mumbai",
+        "allergies": "Penicillin, Peanuts",
+        "existingConditions": "Mild Bronchial Asthma, Hypertension (Stage 1)",
+        "createdAt": "2026-01-15T00:00:00.000Z",
+        "updatedAt": "2026-01-15T00:00:00.000Z"
+      }
+    ],
+    [
+      "pat-prof-02",
+      {
+        "id": "pat-prof-02",
+        "patientId": "PAT-2026-0002",
+        "userId": "usr-pat-02",
+        "fullName": "Ananya Sen",
+        "dateOfBirth": "1988-11-22T00:00:00.000Z",
+        "gender": "FEMALE",
+        "bloodGroup": "B_POSITIVE",
+        "emergencyContactName": "Amit Sen (Brother)",
+        "emergencyContactPhone": "+919876500002",
+        "address": "12B Lake View Apartments, Kolkata",
+        "allergies": "Sulfa antibiotics",
+        "existingConditions": "Type 2 Diabetes Mellitus",
+        "createdAt": "2026-01-20T00:00:00.000Z",
+        "updatedAt": "2026-01-20T00:00:00.000Z"
+      }
+    ],
+    [
+      "pat-prof-1793347087864",
+      {
+        "id": "pat-prof-1793347087864",
+        "patientId": "PAT-2026-9358",
+        "userId": "usr-pat-1793347087864",
+        "fullName": "New Patient",
+        "dateOfBirth": "",
+        "gender": "NOT_DISCLOSED",
+        "bloodGroup": "UNKNOWN",
+        "emergencyContactName": "",
+        "emergencyContactPhone": "",
+        "address": "",
+        "allergies": "",
+        "existingConditions": "",
+        "createdAt": "2026-10-30T07:58:07.864Z",
+        "updatedAt": "2026-10-30T07:58:07.864Z"
+      }
+    ],
+    [
+      "pat-prof-1793347087895",
+      {
+        "id": "pat-prof-1793347087895",
+        "patientId": "PAT-2026-3416",
+        "userId": "usr-pat-1793347087895",
+        "fullName": "Karan Patel",
+        "dateOfBirth": "",
+        "gender": "NOT_DISCLOSED",
+        "bloodGroup": "UNKNOWN",
+        "emergencyContactName": "",
+        "emergencyContactPhone": "",
+        "address": "",
+        "allergies": "",
+        "existingConditions": "",
+        "createdAt": "2026-10-30T07:58:07.895Z",
+        "updatedAt": "2026-10-30T07:58:07.895Z"
+      }
+    ],
+    [
+      "pat-prof-1793349570309",
+      {
+        "id": "pat-prof-1793349570309",
+        "patientId": "PAT-2026-5747",
+        "userId": "usr-pat-1793349570309",
+        "fullName": "Vivek Gajera",
+        "dateOfBirth": "",
+        "gender": "NOT_DISCLOSED",
+        "bloodGroup": "UNKNOWN",
+        "emergencyContactName": "",
+        "emergencyContactPhone": "",
+        "address": "",
+        "allergies": "",
+        "existingConditions": "",
+        "createdAt": "2026-10-30T08:39:30.309Z",
+        "updatedAt": "2026-10-30T08:39:53.362Z"
+      }
+    ]
+  ],
+  "doctors": [
+    [
+      "doc-prof-01",
+      {
+        "id": "doc-prof-01",
+        "userId": "usr-doc-01",
+        "professionalName": "Dr. Aarav Mehta",
+        "qualifications": "MBBS, MD (Internal Medicine), FACP",
+        "registrationNumber": "MCI-2015-44921",
+        "verificationStatus": "APPROVED",
+        "clinicAddress": "Apex Medical Centre, Suite 301, Nariman Point, Mumbai",
+        "clinicPhone": "+912222881100",
+        "consultationFee": 1200,
+        "bio": "Senior Consultant Physician with over 11 years of clinical practice specializing in adult medicine, hypertension, and lifestyle diseases.",
+        "specialty": "General Medicine",
+        "createdAt": "2026-01-05T00:00:00.000Z",
+        "updatedAt": "2026-01-05T00:00:00.000Z"
+      }
+    ],
+    [
+      "doc-prof-02",
+      {
+        "id": "doc-prof-02",
+        "userId": "usr-doc-02",
+        "professionalName": "Dr. Priya Sharma",
+        "qualifications": "MBBS, MS (Orthopedics), DNB",
+        "registrationNumber": "MCI-2017-88231",
+        "verificationStatus": "APPROVED",
+        "clinicAddress": "Bone & Joint Clinic, Powai, Mumbai",
+        "clinicPhone": "+912225709900",
+        "consultationFee": 1500,
+        "bio": "Orthopedic surgeon specializing in arthroscopy, spine care, and sports medicine with international fellowship training.",
+        "specialty": "Orthopedics",
+        "createdAt": "2026-01-10T00:00:00.000Z",
+        "updatedAt": "2026-01-10T00:00:00.000Z"
+      }
+    ],
+    [
+      "doc-prof-03",
+      {
+        "id": "doc-prof-03",
+        "userId": "usr-doc-03",
+        "professionalName": "Dr. Vikram Deshmukh",
+        "qualifications": "MBBS, MD (Cardiology)",
+        "registrationNumber": "MCI-2022-77190",
+        "verificationStatus": "PENDING",
+        "clinicAddress": "Heart Care Institute, Dadar, Mumbai",
+        "clinicPhone": "+912224151122",
+        "consultationFee": 1800,
+        "bio": "Interventional cardiologist with focus on preventive cardiology and coronary interventions.",
+        "specialty": "Cardiology",
+        "createdAt": "2026-02-01T00:00:00.000Z",
+        "updatedAt": "2026-02-01T00:00:00.000Z"
+      }
+    ],
+    [
+      "doc-prof-1793347087924",
+      {
+        "id": "doc-prof-1793347087924",
+        "userId": "usr-doc-1793347087924",
+        "professionalName": "Dr. Vikram Joshi",
+        "qualifications": "MBBS, MD",
+        "registrationNumber": "MCI-79968",
+        "verificationStatus": "APPROVED",
+        "clinicAddress": "Room 304, OPD Block, City Hospital",
+        "clinicPhone": "+919833344455",
+        "consultationFee": 500,
+        "bio": "Practicing specialist physician.",
+        "specialty": "Orthopedics",
+        "createdAt": "2026-10-30T07:58:07.924Z",
+        "updatedAt": "2026-10-30T07:58:07.924Z"
+      }
+    ]
+  ],
+  "radiologyReports": [
+    [
+      "rad-rep-01",
+      {
+        "id": "rad-rep-01",
+        "patientId": "pat-prof-01",
+        "category": "X_RAY",
+        "testDate": "2026-02-10T00:00:00.000Z",
+        "reportDate": "2026-02-11T00:00:00.000Z",
+        "diagnosticCentre": "Metro Diagnostics Centre, Mumbai",
+        "radiologistName": "Dr. Rajesh Nair, DMRD",
+        "findings": "Chest X-Ray PA View: Both lung fields are clear. No focal consolidation, pneumothorax, or pleural effusion noted. Cardiothoracic ratio is normal (CTR < 0.5). Trachea is central. Bony thorax and visualised soft tissues are unremarkable.",
+        "clinicalNotes": "Patient presented with dry cough for 2 weeks. Post-viral bronchitic etiology suspected.",
+        "createdById": "usr-doc-01",
+        "createdAt": "2026-02-11T10:30:00.000Z",
+        "updatedAt": "2026-02-11T10:30:00.000Z"
+      }
+    ],
+    [
+      "rad-rep-02",
+      {
+        "id": "rad-rep-02",
+        "patientId": "pat-prof-01",
+        "category": "MRI",
+        "testDate": "2026-01-18T00:00:00.000Z",
+        "reportDate": "2026-01-19T00:00:00.000Z",
+        "diagnosticCentre": "Apollo Advanced Imaging Institute",
+        "radiologistName": "Dr. Sunita Rao, MD Radiodiagnosis",
+        "findings": "MRI Lumbar Spine: Mild diffuse disc bulge noted at L4-L5 level with subtle indent on the thecal sac. Bilateral neural foramina remain patent. No cord compression or canal stenosis. Vertebral alignment and marrow signal are preserved.",
+        "clinicalNotes": "Evaluated for recurrent lower back stiffness after prolonged sitting.",
+        "createdById": "usr-doc-02",
+        "createdAt": "2026-01-19T14:15:00.000Z",
+        "updatedAt": "2026-01-19T14:15:00.000Z"
+      }
+    ]
+  ],
+  "laboratoryReports": [
+    [
+      "lab-rep-01",
+      {
+        "id": "lab-rep-01",
+        "patientId": "pat-prof-01",
+        "category": "CBC",
+        "testDate": "2026-02-12T00:00:00.000Z",
+        "reportDate": "2026-02-12T00:00:00.000Z",
+        "laboratoryName": "Metropolis Central Reference Lab",
+        "findings": "Complete Blood Count is within physiological limits except for mildly elevated Absolute Eosinophil Count suggestive of allergic diathesis.",
+        "doctorNotes": "Correlate with history of bronchial asthma and seasonal allergies.",
+        "createdById": "usr-doc-01",
+        "createdAt": "2026-02-12T16:00:00.000Z",
+        "updatedAt": "2026-02-12T16:00:00.000Z",
+        "results": [
+          {
+            "id": "res-01",
+            "reportId": "lab-rep-01",
+            "testName": "Hemoglobin",
+            "resultValue": "14.8",
+            "unit": "g/dL",
+            "referenceRange": "13.0 - 17.0",
+            "abnormalityFlag": "NORMAL"
+          },
+          {
+            "id": "res-02",
+            "reportId": "lab-rep-01",
+            "testName": "Total Leukocyte Count (WBC)",
+            "resultValue": "7,800",
+            "unit": "cells/mcL",
+            "referenceRange": "4,000 - 11,000",
+            "abnormalityFlag": "NORMAL"
+          },
+          {
+            "id": "res-03",
+            "reportId": "lab-rep-01",
+            "testName": "Platelet Count",
+            "resultValue": "245,000",
+            "unit": "/mcL",
+            "referenceRange": "150,000 - 450,000",
+            "abnormalityFlag": "NORMAL"
+          },
+          {
+            "id": "res-04",
+            "reportId": "lab-rep-01",
+            "testName": "Absolute Eosinophil Count",
+            "resultValue": "520",
+            "unit": "cells/mcL",
+            "referenceRange": "20 - 400",
+            "abnormalityFlag": "HIGH"
+          }
+        ]
+      }
+    ],
+    [
+      "lab-rep-02",
+      {
+        "id": "lab-rep-02",
+        "patientId": "pat-prof-01",
+        "category": "LIVER_FUNCTION_TEST",
+        "testDate": "2026-01-25T00:00:00.000Z",
+        "reportDate": "2026-01-26T00:00:00.000Z",
+        "laboratoryName": "SRL Healthcare Diagnostics",
+        "findings": "Bilirubin and transaminases are within normal limits. Normal hepatic biochemical profile.",
+        "createdById": "usr-doc-01",
+        "createdAt": "2026-01-26T11:20:00.000Z",
+        "updatedAt": "2026-01-26T11:20:00.000Z",
+        "results": [
+          {
+            "id": "res-05",
+            "reportId": "lab-rep-02",
+            "testName": "Total Bilirubin",
+            "resultValue": "0.8",
+            "unit": "mg/dL",
+            "referenceRange": "0.2 - 1.2",
+            "abnormalityFlag": "NORMAL"
+          },
+          {
+            "id": "res-06",
+            "reportId": "lab-rep-02",
+            "testName": "SGOT (AST)",
+            "resultValue": "24",
+            "unit": "U/L",
+            "referenceRange": "10 - 40",
+            "abnormalityFlag": "NORMAL"
+          },
+          {
+            "id": "res-07",
+            "reportId": "lab-rep-02",
+            "testName": "SGPT (ALT)",
+            "resultValue": "28",
+            "unit": "U/L",
+            "referenceRange": "7 - 56",
+            "abnormalityFlag": "NORMAL"
+          }
+        ]
+      }
+    ]
+  ],
+  "prescriptions": [
+    [
+      "rx-01",
+      {
+        "id": "rx-01",
+        "prescriptionNumber": "RX-2026-0001",
+        "patientId": "pat-prof-01",
+        "doctorId": "doc-prof-01",
+        "prescriptionDate": "2026-02-12T00:00:00.000Z",
+        "diagnosis": "Acute Bronchitis with Allergic Component; Controlled Hypertension",
+        "clinicalNotes": "Patient advised adequate rest and hydration. Steam inhalation twice daily. Strict avoidance of cold beverages and known allergen triggers.",
+        "status": "FINALIZED",
+        "followUpDate": "2026-02-26T00:00:00.000Z",
+        "finalizedAt": "2026-02-12T16:30:00.000Z",
+        "createdAt": "2026-02-12T16:15:00.000Z",
+        "updatedAt": "2026-02-12T16:30:00.000Z",
+        "revisions": [],
+        "medicines": [
+          {
+            "id": "rx-med-01",
+            "prescriptionId": "rx-01",
+            "medicineName": "Montelukast + Levocetirizine",
+            "strength": "10mg / 5mg",
+            "dosage": "1 tablet",
+            "route": "Oral",
+            "frequency": "Once daily at bedtime",
+            "duration": "10 days",
+            "instructions": "Take with water after dinner",
+            "startDate": "2026-02-12T00:00:00.000Z",
+            "endDate": "2026-02-22T00:00:00.000Z"
+          },
+          {
+            "id": "rx-med-02",
+            "prescriptionId": "rx-01",
+            "medicineName": "Telmisartan",
+            "strength": "40 mg",
+            "dosage": "1 tablet",
+            "route": "Oral",
+            "frequency": "Once daily in the morning",
+            "duration": "30 days",
+            "instructions": "Take regularly before breakfast",
+            "startDate": "2026-02-12T00:00:00.000Z",
+            "endDate": "2026-03-14T00:00:00.000Z"
+          }
+        ]
+      }
+    ]
+  ],
+  "appointments": [
+    [
+      "apt-01",
+      {
+        "id": "apt-01",
+        "appointmentNumber": "APT-2026-0001",
+        "patientId": "pat-prof-01",
+        "doctorId": "doc-prof-01",
+        "appointmentDate": "2026-03-05T00:00:00.000Z",
+        "startTime": "10:00",
+        "endTime": "10:30",
+        "type": "IN_PERSON",
+        "reasonForVisit": "Routine Follow-up & Blood Pressure Monitoring",
+        "status": "CONFIRMED",
+        "bookingTimestamp": "2026-02-20T10:00:00.000Z",
+        "createdAt": "2026-02-20T10:00:00.000Z",
+        "updatedAt": "2026-02-20T10:00:00.000Z"
+      }
+    ],
+    [
+      "apt-02",
+      {
+        "id": "apt-02",
+        "appointmentNumber": "APT-2026-0002",
+        "patientId": "pat-prof-01",
+        "doctorId": "doc-prof-02",
+        "appointmentDate": "2026-01-18T00:00:00.000Z",
+        "startTime": "15:00",
+        "endTime": "15:30",
+        "type": "IN_PERSON",
+        "reasonForVisit": "Lower Back Pain Assessment",
+        "status": "COMPLETED",
+        "bookingTimestamp": "2026-01-15T09:00:00.000Z",
+        "createdAt": "2026-01-15T09:00:00.000Z",
+        "updatedAt": "2026-01-18T15:30:00.000Z"
+      }
+    ],
+    [
+      "apt-1793347083469",
+      {
+        "patientId": "pat-prof-01",
+        "doctorId": "doc-prof-01",
+        "appointmentDate": "2026-05-10T00:00:00.000Z",
+        "startTime": "14:00",
+        "endTime": "14:30",
+        "type": "IN_PERSON",
+        "reasonForVisit": "Routine follow-up",
+        "status": "CANCELLED",
+        "id": "apt-1793347083469",
+        "appointmentNumber": "APT-2026-8382",
+        "bookingTimestamp": "2026-10-30T07:58:03.469Z",
+        "createdAt": "2026-10-30T07:58:03.469Z",
+        "updatedAt": "2026-10-30T07:58:03.469Z",
+        "cancellationReason": "Rescheduled by patient",
+        "cancelledById": "usr-pat-01"
+      }
+    ],
+    [
+      "apt-1793347083470",
+      {
+        "patientId": "pat-prof-02",
+        "doctorId": "doc-prof-01",
+        "appointmentDate": "2026-05-10T00:00:00.000Z",
+        "startTime": "14:00",
+        "endTime": "14:30",
+        "type": "IN_PERSON",
+        "reasonForVisit": "Urgent consultation",
+        "status": "CONFIRMED",
+        "id": "apt-1793347083470",
+        "appointmentNumber": "APT-2026-3257",
+        "bookingTimestamp": "2026-10-30T07:58:03.470Z",
+        "createdAt": "2026-10-30T07:58:03.470Z",
+        "updatedAt": "2026-10-30T07:58:03.470Z"
+      }
+    ]
+  ],
+  "medicalDocuments": [
+    [
+      "doc-01",
+      {
+        "id": "doc-01",
+        "patientId": "pat-prof-01",
+        "title": "Annual Health Checkup Clearance Certificate",
+        "category": "MEDICAL_CERTIFICATE",
+        "documentDate": "2026-01-20T00:00:00.000Z",
+        "description": "Medical fitness certificate issued following comprehensive annual physical checkup.",
+        "createdById": "usr-doc-01",
+        "createdAt": "2026-01-20T12:00:00.000Z",
+        "updatedAt": "2026-01-20T12:00:00.000Z"
+      }
+    ],
+    [
+      "doc-1793343095026",
+      {
+        "patientId": "pat-prof-1793349570309",
+        "title": "test",
+        "category": "MEDICAL_CERTIFICATE",
+        "documentDate": "2026-10-30T00:00:00.000Z",
+        "description": "Official Medical Certificate",
+        "fileId": "297ad34e-0909-48d0-8a4d-1c567d01ea6b.jpeg",
+        "createdById": "usr-pat-1793349570309",
+        "id": "doc-1793343095026",
+        "createdAt": "2026-10-30T06:51:35.026Z",
+        "updatedAt": "2026-10-30T06:51:35.026Z"
+      }
+    ],
+    [
+      "doc-1793343114595",
+      {
+        "patientId": "pat-prof-1793349570309",
+        "title": "test",
+        "category": "OTHER",
+        "documentDate": "2026-10-30T00:00:00.000Z",
+        "description": "Official Medical Document",
+        "fileId": "91ae25fd-b06b-4417-bc8f-0de79bb71d05.pdf",
+        "createdById": "usr-pat-1793349570309",
+        "id": "doc-1793343114595",
+        "createdAt": "2026-10-30T06:51:54.595Z",
+        "updatedAt": "2026-10-30T06:51:54.595Z"
+      }
+    ]
+  ],
+  "reportCategories": [
+    [
+      "cat-rad-01",
+      {
+        "id": "cat-rad-01",
+        "type": "RADIOLOGY",
+        "code": "X_RAY",
+        "name": "X-Ray (Chest & Skeletal)",
+        "modalityOrSpecimen": "Projection Radiography",
+        "typicalTurnaround": "2 hours",
+        "parametersCount": "Single / Dual Views",
+        "isActive": true,
+        "createdAt": "2026-01-01T00:00:00.000Z",
+        "updatedAt": "2026-01-01T00:00:00.000Z"
+      }
+    ],
+    [
+      "cat-rad-02",
+      {
+        "id": "cat-rad-02",
+        "type": "RADIOLOGY",
+        "code": "CT_SCAN",
+        "name": "Computed Tomography (CT Scan)",
+        "modalityOrSpecimen": "Multi-slice Helical CT",
+        "typicalTurnaround": "4 hours",
+        "parametersCount": "Axial & 3D Volumetric",
+        "isActive": true,
+        "createdAt": "2026-01-01T00:00:00.000Z",
+        "updatedAt": "2026-01-01T00:00:00.000Z"
+      }
+    ],
+    [
+      "cat-rad-03",
+      {
+        "id": "cat-rad-03",
+        "type": "RADIOLOGY",
+        "code": "MRI",
+        "name": "Magnetic Resonance Imaging (MRI)",
+        "modalityOrSpecimen": "High-Field 1.5T/3.0T MR",
+        "typicalTurnaround": "12 hours",
+        "parametersCount": "Multi-sequence Contrast",
+        "isActive": true,
+        "createdAt": "2026-01-01T00:00:00.000Z",
+        "updatedAt": "2026-01-01T00:00:00.000Z"
+      }
+    ],
+    [
+      "cat-rad-04",
+      {
+        "id": "cat-rad-04",
+        "type": "RADIOLOGY",
+        "code": "SONOGRAPHY_ULTRASOUND",
+        "name": "Sonography & Color Doppler",
+        "modalityOrSpecimen": "Acoustic Ultrasonography",
+        "typicalTurnaround": "1 hour",
+        "parametersCount": "Real-time High-resolution",
+        "isActive": true,
+        "createdAt": "2026-01-01T00:00:00.000Z",
+        "updatedAt": "2026-01-01T00:00:00.000Z"
+      }
+    ],
+    [
+      "cat-rad-05",
+      {
+        "id": "cat-rad-05",
+        "type": "RADIOLOGY",
+        "code": "PET_CT_SCAN",
+        "name": "Whole Body PET-CT Scan",
+        "modalityOrSpecimen": "Positron Emission Tomography",
+        "typicalTurnaround": "24 hours",
+        "parametersCount": "Metabolic Fusion Imaging",
+        "isActive": true,
+        "createdAt": "2026-01-01T00:00:00.000Z",
+        "updatedAt": "2026-01-01T00:00:00.000Z"
+      }
+    ],
+    [
+      "cat-rad-06",
+      {
+        "id": "cat-rad-06",
+        "type": "RADIOLOGY",
+        "code": "DEXA_SCAN",
+        "name": "Bone Mineral Density (DEXA)",
+        "modalityOrSpecimen": "Dual-energy X-ray Absorptiometry",
+        "typicalTurnaround": "3 hours",
+        "parametersCount": "T-Score & Z-Score Analysis",
+        "isActive": true,
+        "createdAt": "2026-01-01T00:00:00.000Z",
+        "updatedAt": "2026-01-01T00:00:00.000Z"
+      }
+    ],
+    [
+      "cat-lab-01",
+      {
+        "id": "cat-lab-01",
+        "type": "LABORATORY",
+        "code": "CBC",
+        "name": "Complete Blood Count (CBC with ESR)",
+        "modalityOrSpecimen": "Whole Blood (EDTA)",
+        "typicalTurnaround": "3 hours",
+        "parametersCount": "18 Biomarkers (Hb, TLC, Platelets...)",
+        "isActive": true,
+        "createdAt": "2026-01-01T00:00:00.000Z",
+        "updatedAt": "2026-01-01T00:00:00.000Z"
+      }
+    ],
+    [
+      "cat-lab-02",
+      {
+        "id": "cat-lab-02",
+        "type": "LABORATORY",
+        "code": "BLOOD_SUGAR",
+        "name": "Blood Glucose (Fasting & PP)",
+        "modalityOrSpecimen": "Fluoride Plasma",
+        "typicalTurnaround": "2 hours",
+        "parametersCount": "2 Biomarkers",
+        "isActive": true,
+        "createdAt": "2026-01-01T00:00:00.000Z",
+        "updatedAt": "2026-01-01T00:00:00.000Z"
+      }
+    ],
+    [
+      "cat-lab-03",
+      {
+        "id": "cat-lab-03",
+        "type": "LABORATORY",
+        "code": "KIDNEY_FUNCTION_TEST",
+        "name": "Kidney Function Test (KFT / RFT)",
+        "modalityOrSpecimen": "Serum",
+        "typicalTurnaround": "4 hours",
+        "parametersCount": "6 Biomarkers (Urea, Creatinine, Uric Acid...)",
+        "isActive": true,
+        "createdAt": "2026-01-01T00:00:00.000Z",
+        "updatedAt": "2026-01-01T00:00:00.000Z"
+      }
+    ],
+    [
+      "cat-lab-04",
+      {
+        "id": "cat-lab-04",
+        "type": "LABORATORY",
+        "code": "LIVER_FUNCTION_TEST",
+        "name": "Liver Function Test (LFT)",
+        "modalityOrSpecimen": "Serum",
+        "typicalTurnaround": "4 hours",
+        "parametersCount": "8 Biomarkers (SGOT, SGPT, Bilirubin...)",
+        "isActive": true,
+        "createdAt": "2026-01-01T00:00:00.000Z",
+        "updatedAt": "2026-01-01T00:00:00.000Z"
+      }
+    ],
+    [
+      "cat-lab-05",
+      {
+        "id": "cat-lab-05",
+        "type": "LABORATORY",
+        "code": "LIPID_PROFILE",
+        "name": "Comprehensive Lipid Profile",
+        "modalityOrSpecimen": "Serum (12h Fasting)",
+        "typicalTurnaround": "5 hours",
+        "parametersCount": "5 Biomarkers (Cholesterol, HDL, LDL, Triglycerides)",
+        "isActive": true,
+        "createdAt": "2026-01-01T00:00:00.000Z",
+        "updatedAt": "2026-01-01T00:00:00.000Z"
+      }
+    ],
+    [
+      "cat-lab-06",
+      {
+        "id": "cat-lab-06",
+        "type": "LABORATORY",
+        "code": "THYROID_PANEL",
+        "name": "Thyroid Profile (Total T3, T4, TSH)",
+        "modalityOrSpecimen": "Serum",
+        "typicalTurnaround": "6 hours",
+        "parametersCount": "3 Biomarkers",
+        "isActive": true,
+        "createdAt": "2026-01-01T00:00:00.000Z",
+        "updatedAt": "2026-01-01T00:00:00.000Z"
+      }
+    ],
+    [
+      "cat-lab-07",
+      {
+        "id": "cat-lab-07",
+        "type": "LABORATORY",
+        "code": "URINE_TEST",
+        "name": "Urinalysis Routine & Microscopic",
+        "modalityOrSpecimen": "Clean-catch Midstream Urine",
+        "typicalTurnaround": "2 hours",
+        "parametersCount": "12 Parameters (pH, Protein, RBCs...)",
+        "isActive": true,
+        "createdAt": "2026-01-01T00:00:00.000Z",
+        "updatedAt": "2026-01-01T00:00:00.000Z"
+      }
+    ]
+  ],
+  "auditLogs": [
+    {
+      "actorId": "pat-prof-02",
+      "action": "BOOK_APPOINTMENT",
+      "entityType": "Appointment",
+      "entityId": "apt-1793347083470",
+      "metadataJson": "{\"appointmentNumber\":\"APT-2026-3257\",\"doctorId\":\"doc-prof-01\",\"date\":\"2026-05-10T00:00:00.000Z\",\"startTime\":\"14:00\"}",
+      "id": "aud-1793347083470-i9xi7",
+      "timestamp": "2026-10-30T07:58:03.470Z"
+    },
+    {
+      "actorId": "usr-pat-01",
+      "action": "APPOINTMENT_STATUS_CANCELLED",
+      "entityType": "Appointment",
+      "entityId": "apt-1793347083469",
+      "metadataJson": "{\"appointmentNumber\":\"APT-2026-8382\",\"status\":\"CANCELLED\"}",
+      "id": "aud-1793347083470-o5ka0",
+      "timestamp": "2026-10-30T07:58:03.470Z"
+    },
+    {
+      "actorId": "pat-prof-01",
+      "action": "BOOK_APPOINTMENT",
+      "entityType": "Appointment",
+      "entityId": "apt-1793347083469",
+      "metadataJson": "{\"appointmentNumber\":\"APT-2026-8382\",\"doctorId\":\"doc-prof-01\",\"date\":\"2026-05-10T00:00:00.000Z\",\"startTime\":\"14:00\"}",
+      "id": "aud-1793347083469-pk1f9",
+      "timestamp": "2026-10-30T07:58:03.469Z"
+    },
+    {
+      "id": "aud-01",
+      "actorId": "usr-admin-01",
+      "action": "PLATFORM_INITIALIZATION",
+      "entityType": "System",
+      "entityId": "SYSTEM",
+      "metadataJson": "{\"version\":\"1.0.0\",\"environment\":\"production-ready\"}",
+      "timestamp": "2026-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "aud-02",
+      "actorId": "usr-doc-01",
+      "action": "FINALIZE_PRESCRIPTION",
+      "entityType": "Prescription",
+      "entityId": "rx-01",
+      "metadataJson": "{\"prescriptionNumber\":\"RX-2026-0001\",\"patientId\":\"pat-prof-01\"}",
+      "timestamp": "2026-02-12T16:30:00.000Z"
+    }
+  ],
+  "updatedAt": "2026-10-30T08:39:53.362Z"
+}

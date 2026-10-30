@@ -1,0 +1,521 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// -----------------------------------------------------------------------------
+// ENUMS
+// -----------------------------------------------------------------------------
+
+enum UserRole {
+  PATIENT
+  DOCTOR
+  ADMIN
+}
+
+enum AccountStatus {
+  ACTIVE
+  SUSPENDED
+  PENDING_VERIFICATION
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+  NOT_DISCLOSED
+}
+
+enum BloodGroup {
+  A_POSITIVE
+  A_NEGATIVE
+  B_POSITIVE
+  B_NEGATIVE
+  AB_POSITIVE
+  AB_NEGATIVE
+  O_POSITIVE
+  O_NEGATIVE
+  UNKNOWN
+}
+
+enum DoctorVerificationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  SUSPENDED
+}
+
+enum RadiologyCategory {
+  X_RAY
+  CT_SCAN
+  MRI
+  SONOGRAPHY_ULTRASOUND
+  PET_CT_SCAN
+  OTHER
+}
+
+enum LabCategory {
+  CBC
+  BLOOD_SUGAR
+  KIDNEY_FUNCTION_TEST
+  LIVER_FUNCTION_TEST
+  URINE_TEST
+  HISTOPATHOLOGY
+  HIV_TEST
+  HBSAG_TEST
+  BIOPSY
+  OTHER
+}
+
+enum AbnormalityFlag {
+  NORMAL
+  LOW
+  HIGH
+  CRITICAL
+  ABNORMAL
+}
+
+enum PrescriptionStatus {
+  DRAFT
+  FINALIZED
+  AMENDED
+  CANCELLED
+}
+
+enum MedicalDocumentCategory {
+  DISCHARGE_SUMMARY
+  MEDICAL_CERTIFICATE
+  REFERRAL_LETTER
+  OPERATION_REPORT
+  OTHER
+}
+
+enum AppointmentType {
+  IN_PERSON
+  ONLINE
+}
+
+enum AppointmentStatus {
+  PENDING
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+  REJECTED
+}
+
+// -----------------------------------------------------------------------------
+// USER AND AUTHENTICATION
+// -----------------------------------------------------------------------------
+
+model User {
+  id                 String         @id @default(uuid())
+  mobileNumber       String         @unique
+  passwordHash       String?
+  role               UserRole       @default(PATIENT)
+  status             AccountStatus  @default(ACTIVE)
+  mobileVerifiedAt   DateTime?
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
+
+  patientProfile     PatientProfile?
+  doctorProfile      DoctorProfile?
+  sessions           Session[]
+  otpChallenges      OtpChallenge[]
+  auditLogs          AuditLog[]
+  uploadedFiles      UploadedFile[]
+  createdRadiology   RadiologyReport[]
+  createdLabReports  LaboratoryReport[]
+  createdDocuments   MedicalDocument[]
+
+  @@index([mobileNumber])
+  @@index([role])
+  @@index([status])
+}
+
+model OtpChallenge {
+  id                 String    @id @default(uuid())
+  mobileNumber       String
+  codeHash           String
+  expiresAt          DateTime
+  attempts           Int       @default(0)
+  maxAttempts        Int       @default(3)
+  verifiedAt         DateTime?
+  resendAvailableAt  DateTime
+  ipAddress          String?
+  createdAt          DateTime  @default(now())
+
+  userId             String?
+  user               User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([mobileNumber])
+  @@index([expiresAt])
+}
+
+model Session {
+  id         String    @id @default(uuid())
+  userId     String
+  tokenHash  String    @unique
+  expiresAt  DateTime
+  ipAddress  String?
+  userAgent  String?
+  revokedAt  DateTime?
+  createdAt  DateTime  @default(now())
+
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([tokenHash])
+  @@index([expiresAt])
+}
+
+// -----------------------------------------------------------------------------
+// PROFILES
+// -----------------------------------------------------------------------------
+
+model PatientProfile {
+  id                    String      @id @default(uuid())
+  patientId             String      @unique // e.g. PAT-2026-0001
+  userId                String      @unique
+  fullName              String
+  dateOfBirth           DateTime?
+  gender                Gender      @default(NOT_DISCLOSED)
+  bloodGroup            BloodGroup  @default(UNKNOWN)
+  emergencyContactName  String?
+  emergencyContactPhone String?
+  address               String?
+  allergies             String?     // Comma-separated or serialized JSON list of allergies
+  existingConditions    String?     // Pre-existing conditions or medical history
+  createdAt             DateTime    @default(now())
+  updatedAt             DateTime    @updatedAt
+
+  user                  User        @relation(fields: [userId], references: [id], onDelete: Restrict)
+  radiologyReports      RadiologyReport[]
+  laboratoryReports     LaboratoryReport[]
+  prescriptions         Prescription[]
+  appointments          Appointment[]
+  medicalDocuments      MedicalDocument[]
+
+  @@index([patientId])
+  @@index([fullName])
+}
+
+model DoctorProfile {
+  id                 String                   @id @default(uuid())
+  userId             String                   @unique
+  professionalName   String
+  qualifications     String
+  registrationNumber String                   @unique
+  verificationStatus DoctorVerificationStatus @default(PENDING)
+  clinicAddress      String?
+  clinicPhone        String?
+  consultationFee    Float?
+  bio                String?
+  createdAt          DateTime                 @default(now())
+  updatedAt          DateTime                 @updatedAt
+
+  user               User                     @relation(fields: [userId], references: [id], onDelete: Restrict)
+  specialties        DoctorSpecialty[]
+  appointments       Appointment[]
+  prescriptions      Prescription[]
+  prescriptionRevisions PrescriptionRevision[]
+  availabilitySlots  AppointmentSlot[]
+
+  @@index([registrationNumber])
+  @@index([verificationStatus])
+}
+
+model Specialty {
+  id          String            @id @default(uuid())
+  name        String            @unique
+  description String?
+  createdAt   DateTime          @default(now())
+
+  doctors     DoctorSpecialty[]
+
+  @@index([name])
+}
+
+model DoctorSpecialty {
+  doctorId    String
+  specialtyId String
+
+  doctor      DoctorProfile     @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+  specialty   Specialty         @relation(fields: [specialtyId], references: [id], onDelete: Cascade)
+
+  @@id([doctorId, specialtyId])
+}
+
+model Clinic {
+  id           String        @id @default(uuid())
+  name         String
+  address      String
+  phone        String?
+  timezone     String        @default("UTC")
+  createdAt    DateTime      @default(now())
+
+  appointments Appointment[]
+}
+
+// -----------------------------------------------------------------------------
+// MEDICAL RECORDS: RADIOLOGY & LABORATORY
+// -----------------------------------------------------------------------------
+
+model RadiologyReport {
+  id               String            @id @default(uuid())
+  patientId        String
+  category         RadiologyCategory
+  testDate         DateTime
+  reportDate       DateTime
+  diagnosticCentre String
+  radiologistName  String
+  findings         String
+  clinicalNotes    String?
+  createdById      String
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+
+  patient          PatientProfile    @relation(fields: [patientId], references: [id], onDelete: Restrict)
+  createdBy        User              @relation(fields: [createdById], references: [id], onDelete: Restrict)
+  files            UploadedFile[]
+
+  @@index([patientId])
+  @@index([category])
+  @@index([reportDate])
+}
+
+model LaboratoryReport {
+  id               String            @id @default(uuid())
+  patientId        String
+  category         LabCategory
+  testDate         DateTime
+  reportDate       DateTime
+  laboratoryName   String
+  findings         String
+  doctorNotes      String?
+  createdById      String
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+
+  patient          PatientProfile    @relation(fields: [patientId], references: [id], onDelete: Restrict)
+  createdBy        User              @relation(fields: [createdById], references: [id], onDelete: Restrict)
+  results          LaboratoryResult[]
+  files            UploadedFile[]
+
+  @@index([patientId])
+  @@index([category])
+  @@index([reportDate])
+}
+
+model LaboratoryResult {
+  id               String            @id @default(uuid())
+  reportId         String
+  testName         String
+  resultValue      String
+  unit             String
+  referenceRange   String?
+  abnormalityFlag  AbnormalityFlag   @default(NORMAL)
+  resultTimestamp  DateTime?
+  createdAt        DateTime          @default(now())
+
+  report           LaboratoryReport  @relation(fields: [reportId], references: [id], onDelete: Cascade)
+
+  @@index([reportId])
+  @@index([testName])
+}
+
+// -----------------------------------------------------------------------------
+// PRESCRIPTIONS AND MEDICINES
+// -----------------------------------------------------------------------------
+
+model Prescription {
+  id                 String                 @id @default(uuid())
+  prescriptionNumber String                 @unique // e.g. RX-2026-0001
+  patientId          String
+  doctorId           String
+  prescriptionDate   DateTime
+  clinicalNotes      String?
+  diagnosis          String
+  status             PrescriptionStatus     @default(DRAFT)
+  followUpDate       DateTime?
+  finalizedAt        DateTime?
+  createdAt          DateTime               @default(now())
+  updatedAt          DateTime               @updatedAt
+
+  patient            PatientProfile         @relation(fields: [patientId], references: [id], onDelete: Restrict)
+  doctor             DoctorProfile          @relation(fields: [doctorId], references: [id], onDelete: Restrict)
+  medicines          PrescriptionMedicine[]
+  revisions          PrescriptionRevision[]
+  files              UploadedFile[]
+
+  @@index([prescriptionNumber])
+  @@index([patientId])
+  @@index([doctorId])
+  @@index([status])
+  @@index([prescriptionDate])
+}
+
+model PrescriptionMedicine {
+  id                 String        @id @default(uuid())
+  prescriptionId     String
+  medicineName       String
+  strength           String
+  dosage             String
+  route              String
+  frequency          String
+  duration           String
+  instructions       String?
+  startDate          DateTime?
+  endDate            DateTime?
+
+  prescription       Prescription  @relation(fields: [prescriptionId], references: [id], onDelete: Cascade)
+
+  @@index([prescriptionId])
+  @@index([medicineName])
+}
+
+model PrescriptionRevision {
+  id                 String        @id @default(uuid())
+  prescriptionId     String
+  revisionNumber     Int
+  doctorId           String
+  reasonForAmendment String
+  snapshotJson       String        // Complete serialized JSON snapshot of prior prescription and medicines
+  createdAt          DateTime      @default(now())
+
+  prescription       Prescription  @relation(fields: [prescriptionId], references: [id], onDelete: Cascade)
+  doctor             DoctorProfile @relation(fields: [doctorId], references: [id], onDelete: Restrict)
+
+  @@index([prescriptionId])
+  @@index([doctorId])
+}
+
+// -----------------------------------------------------------------------------
+// OTHER MEDICAL DOCUMENTS
+// -----------------------------------------------------------------------------
+
+model MedicalDocument {
+  id           String                  @id @default(uuid())
+  patientId    String
+  title        String
+  category     MedicalDocumentCategory
+  documentDate DateTime
+  description  String?
+  createdById  String
+  createdAt    DateTime                @default(now())
+  updatedAt    DateTime                @updatedAt
+
+  patient      PatientProfile          @relation(fields: [patientId], references: [id], onDelete: Restrict)
+  createdBy    User                    @relation(fields: [createdById], references: [id], onDelete: Restrict)
+  files        UploadedFile[]
+
+  @@index([patientId])
+  @@index([category])
+  @@index([documentDate])
+}
+
+// -----------------------------------------------------------------------------
+// SECURE FILE STORAGE METADATA
+// -----------------------------------------------------------------------------
+
+model UploadedFile {
+  id                   String            @id @default(uuid())
+  storageProvider      String            @default("LOCAL") // "LOCAL" or "S3"
+  storageKey           String            @unique // Cryptographic random UUID storage key
+  originalFilename     String
+  mimeType             String
+  fileSize             Int
+  checksum             String?
+  uploadedById         String
+  associatedEntityType String?           // "RadiologyReport", "LaboratoryReport", "Prescription", "MedicalDocument"
+  associatedEntityId   String?
+  createdAt            DateTime          @default(now())
+
+  uploadedBy           User              @relation(fields: [uploadedById], references: [id], onDelete: Restrict)
+  radiologyReport      RadiologyReport?  @relation(fields: [radiologyReportId], references: [id], onDelete: SetNull)
+  radiologyReportId    String?
+  laboratoryReport     LaboratoryReport? @relation(fields: [laboratoryReportId], references: [id], onDelete: SetNull)
+  laboratoryReportId   String?
+  prescription         Prescription?     @relation(fields: [prescriptionId], references: [id], onDelete: SetNull)
+  prescriptionId       String?
+  medicalDocument      MedicalDocument?  @relation(fields: [medicalDocumentId], references: [id], onDelete: SetNull)
+  medicalDocumentId    String?
+
+  @@index([storageKey])
+  @@index([uploadedById])
+  @@index([associatedEntityType, associatedEntityId])
+}
+
+// -----------------------------------------------------------------------------
+// APPOINTMENTS
+// -----------------------------------------------------------------------------
+
+model Appointment {
+  id                 String            @id @default(uuid())
+  appointmentNumber  String            @unique // e.g. APT-2026-0001
+  patientId          String
+  doctorId           String
+  clinicId           String?
+  appointmentDate    DateTime
+  startTime          String            // e.g. "10:00"
+  endTime            String            // e.g. "10:30"
+  type               AppointmentType   @default(IN_PERSON)
+  reasonForVisit     String
+  status             AppointmentStatus @default(PENDING)
+  bookingTimestamp   DateTime          @default(now())
+  cancellationReason String?
+  cancelledById      String?
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @updatedAt
+
+  patient            PatientProfile    @relation(fields: [patientId], references: [id], onDelete: Restrict)
+  doctor             DoctorProfile     @relation(fields: [doctorId], references: [id], onDelete: Restrict)
+  clinic             Clinic?           @relation(fields: [clinicId], references: [id], onDelete: SetNull)
+
+  @@unique([doctorId, appointmentDate, startTime]) // Double-booking prevention constraint
+  @@index([appointmentNumber])
+  @@index([patientId])
+  @@index([doctorId])
+  @@index([appointmentDate])
+  @@index([status])
+}
+
+model AppointmentSlot {
+  id                  String        @id @default(uuid())
+  doctorId            String
+  dayOfWeek           Int           // 0=Sun, 1=Mon, ..., 6=Sat
+  startTime           String        // "09:00"
+  endTime             String        // "17:00"
+  slotDurationMinutes Int           @default(30)
+  isAvailable         Boolean       @default(true)
+
+  doctor              DoctorProfile @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+
+  @@index([doctorId, dayOfWeek])
+}
+
+// -----------------------------------------------------------------------------
+// AUDIT LOG
+// -----------------------------------------------------------------------------
+
+model AuditLog {
+  id           String    @id @default(uuid())
+  actorId      String?
+  action       String
+  entityType   String
+  entityId     String?
+  ipAddress    String?
+  userAgent    String?
+  metadataJson String?   // Sanitized metadata (NO plaintext OTP or sensitive medical notes)
+  timestamp    DateTime  @default(now())
+
+  actor        User?     @relation(fields: [actorId], references: [id], onDelete: SetNull)
+
+  @@index([actorId])
+  @@index([action])
+  @@index([entityType, entityId])
+  @@index([timestamp])
+}
