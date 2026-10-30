@@ -3,6 +3,8 @@ import { otpRequestSchema } from "@/lib/validation/schemas";
 import { requestOtp } from "@/lib/auth/otp";
 import { sanitizeError } from "@/lib/errors/app-error";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();

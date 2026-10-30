@@ -3,6 +3,8 @@ import { medicalRepo } from "@/lib/db/repo";
 import { createSession } from "@/lib/auth/session";
 import { sanitizeError, AppError } from "@/lib/errors/app-error";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json().catch(() => ({}));

@@ -3,6 +3,8 @@ import { requireAuth } from "@/lib/authorization/rbac";
 import { getStorageProvider } from "@/lib/storage/storage-provider";
 import { sanitizeError, AppError } from "@/lib/errors/app-error";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(req: NextRequest) {
   try {
     const auth = await requireAuth();
