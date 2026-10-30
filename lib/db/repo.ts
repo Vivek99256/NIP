@@ -900,6 +900,36 @@ export class MedicalDataRepository {
   // ---------------------------------------------------------------------------
 
   async getMedicalDocuments(patientId: string, category?: string): Promise<MockMedicalDocument[]> {
+    const isDb = await checkDatabaseConnection();
+    if (isDb) {
+      try {
+        const whereClause: any = { patientId };
+        if (category && category !== "ALL") {
+          whereClause.category = category;
+        }
+        const docs = await prisma.medicalDocument.findMany({
+          where: whereClause,
+          include: { files: true },
+          orderBy: { documentDate: "desc" },
+        });
+        if (docs.length > 0) {
+          return docs.map((d) => ({
+            id: d.id,
+            patientId: d.patientId,
+            title: d.title,
+            category: d.category as any,
+            documentDate: d.documentDate.toISOString(),
+            description: d.description || "",
+            fileId: d.files[0]?.storageKey || undefined,
+            createdById: d.createdById,
+            createdAt: d.createdAt.toISOString(),
+            updatedAt: d.updatedAt.toISOString(),
+          }));
+        }
+      } catch (err) {
+        console.error("Prisma getMedicalDocuments fallback:", err);
+      }
+    }
     devStore.loadFromDisk();
     let list = Array.from(devStore.medicalDocuments.values()).filter((d) => d.patientId === patientId);
     if (category && category !== "ALL") {
@@ -917,6 +947,43 @@ export class MedicalDataRepository {
       createdAt: now,
       updatedAt: now,
     };
+
+    const isDb = await checkDatabaseConnection();
+    if (isDb) {
+      try {
+        await prisma.medicalDocument.create({
+          data: {
+            id,
+            patientId: data.patientId,
+            title: data.title,
+            category: data.category as any,
+            documentDate: new Date(data.documentDate),
+            description: data.description || "",
+            createdById: data.createdById,
+            ...(data.fileId
+              ? {
+                  files: {
+                    create: {
+                      id: `file-${id}`,
+                      storageKey: data.fileId,
+                      originalFilename: data.title,
+                      mimeType: data.fileId.endsWith(".pdf") ? "application/pdf" : "image/jpeg",
+                      fileSize: 1024,
+                      storageProvider: "LOCAL",
+                      uploadedById: data.createdById,
+                      associatedEntityType: "MedicalDocument",
+                      associatedEntityId: id,
+                    },
+                  },
+                }
+              : {}),
+          },
+        });
+      } catch (err) {
+        console.error("Prisma createMedicalDocument error:", err);
+      }
+    }
+
     devStore.medicalDocuments.set(id, doc);
     devStore.persist();
     return doc;
