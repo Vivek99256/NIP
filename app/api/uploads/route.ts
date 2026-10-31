@@ -32,6 +32,7 @@ export async function POST(req: NextRequest) {
       mimeType: result.mimeType,
     });
   } catch (error) {
+    console.error("[API_UPLOADS_ERROR]", error);
     const sanitized = sanitizeError(error);
     return NextResponse.json({ error: sanitized.message, code: sanitized.code }, { status: sanitized.statusCode });
   }
