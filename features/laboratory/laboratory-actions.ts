@@ -1,15 +1,24 @@
 "use server";
 
-import { requireVerifiedDoctor } from "@/lib/authorization/rbac";
+import { requireAuth, requireVerifiedDoctor } from "@/lib/authorization/rbac";
 import { medicalRepo } from "@/lib/db/repo";
 import { laboratoryReportCreateSchema } from "@/lib/validation/schemas";
-import { sanitizeError } from "@/lib/errors/app-error";
+import { sanitizeError, AppError } from "@/lib/errors/app-error";
 import { revalidatePath } from "next/cache";
 
 export async function createLaboratoryReportAction(data: unknown) {
   try {
-    const auth = await requireVerifiedDoctor();
+    const auth = await requireAuth();
     const validated = laboratoryReportCreateSchema.parse(data);
+
+    // If patient is uploading, ensure they are uploading for themselves
+    if (auth.user.role === "PATIENT" && auth.patientProfile?.id !== validated.patientId) {
+      throw AppError.forbidden("Cannot upload reports to another patient's record");
+    }
+
+    if (auth.user.role === "DOCTOR") {
+      await requireVerifiedDoctor(auth);
+    }
 
     const report = await medicalRepo.createLaboratoryReport({
       patientId: validated.patientId,
@@ -18,8 +27,9 @@ export async function createLaboratoryReportAction(data: unknown) {
       reportDate: validated.reportDate,
       laboratoryName: validated.laboratoryName,
       findings: validated.findings,
-      doctorNotes: validated.doctorNotes,
-      results: validated.results.map((r, i) => ({
+      doctorNotes: validated.doctorNotes || "",
+      pdfFileId: validated.pdfFileId,
+      results: (validated.results || []).map((r, i) => ({
         id: `res-${Date.now()}-${i}`,
         reportId: "",
         testName: r.testName,

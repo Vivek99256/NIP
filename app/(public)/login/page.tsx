@@ -42,7 +42,7 @@ const ROLES: Record<RoleOption, RoleConfig> = {
     badge: "Patient Account",
     phone: "+91 98765 43210",
     name: "Rohan Verma",
-    description: "Access personal health records, radiology scans, laboratory reports & doctor appointments.",
+    description: "Access personal health records, radiology scans, laboratory reports & medical documents.",
     screenPath: "/dashboard",
     themeColor: "sky",
     icon: User,
@@ -53,7 +53,7 @@ const ROLES: Record<RoleOption, RoleConfig> = {
     badge: "Verified MD Clinician",
     phone: "+91 98200 11223",
     name: "Dr. Aarav Mehta",
-    description: "Clinical dashboard, authorized patient list, write & sign e-prescriptions, track appointments.",
+    description: "Clinical dashboard, authorized patient list, write & sign e-prescriptions, review patient reports.",
     screenPath: "/doctor/dashboard",
     themeColor: "teal",
     icon: Stethoscope,
@@ -129,7 +129,7 @@ function LoginContent() {
           <Activity className="h-7 w-7" />
         </div>
         <h2 className="mt-4 text-2xl font-extrabold text-slate-900 tracking-tight">
-          MedRec Healthcare
+          NIP Healthcare
         </h2>
         <p className="mt-1 text-sm text-slate-500">
           Electronic Health Records &amp; Clinical Management

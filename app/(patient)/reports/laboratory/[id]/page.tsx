@@ -299,7 +299,7 @@ export default async function LaboratoryDetailPage(props: Props) {
                 <span className="text-[10px] print:text-[8px] text-slate-400 font-mono mt-0.5">
                   Timestamp: {new Date(report.reportDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} • SHA-256 Validated
                 </span>
-                <span className="text-[9px] print:text-[7px] text-slate-400 uppercase mt-0.5">MedRec EHR Security Compliant</span>
+                <span className="text-[9px] print:text-[7px] text-slate-400 uppercase mt-0.5">NIP Healthcare Security Compliant</span>
               </div>
 
               <div className="text-right space-y-1 print:space-y-0.5">

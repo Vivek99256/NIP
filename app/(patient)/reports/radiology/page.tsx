@@ -51,7 +51,12 @@ export default async function RadiologyReportsPage(props: Props) {
         </div>
 
         {/* Client Interactive Filter & List Component */}
-        <RadiologyReportList reports={reports} selectedCategory={params.category || "ALL"} />
+        <RadiologyReportList
+          reports={reports}
+          selectedCategory={params.category || "ALL"}
+          patientId={patient.id}
+          canUpload={true}
+        />
       </div>
     </AppShell>
   );

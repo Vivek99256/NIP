@@ -94,7 +94,7 @@ function RegisterContent() {
           <Activity className="h-7 w-7" />
         </div>
         <h2 className="mt-4 text-2xl font-extrabold text-slate-900 tracking-tight">
-          Create MedRec Account
+          Create NIP Healthcare Account
         </h2>
         <p className="mt-1 text-sm text-slate-500">
           Sign up to access medical records and clinical services
@@ -185,7 +185,7 @@ function RegisterContent() {
                 ? "Register verified clinician account to write e-prescriptions & review patient labs."
                 : role === "ADMIN"
                 ? "Register hospital system administrator to manage clinical operations, staff & audit trail."
-                : "Register patient account to manage health records, lab reports & appointments."}
+                : "Register patient account to manage health records, lab reports & medical documents."}
             </CardDescription>
           </CardHeader>
           <CardContent>

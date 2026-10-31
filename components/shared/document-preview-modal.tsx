@@ -143,7 +143,7 @@ export function DocumentPreviewModal({
                     Official Record ID
                   </span>
                   <span className="font-mono font-bold text-xs text-slate-900 block mt-0.5">
-                    MEDREC-{Math.floor(100000 + Math.random() * 900000)}
+                    NIP-{Math.floor(100000 + Math.random() * 900000)}
                   </span>
                 </div>
               </div>

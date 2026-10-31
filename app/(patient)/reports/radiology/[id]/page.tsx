@@ -259,7 +259,7 @@ export default async function RadiologyDetailPage(props: Props) {
                 <span className="text-[10px] print:text-[8px] text-slate-400 font-mono mt-0.5">
                   Verified: {formatDate(report.reportDate)} • Electronic Signoff
                 </span>
-                <span className="text-[9px] print:text-[7px] text-slate-400 uppercase mt-0.5">MedRec EHR Security Compliant</span>
+                <span className="text-[9px] print:text-[7px] text-slate-400 uppercase mt-0.5">NIP Healthcare Security Compliant</span>
               </div>
 
               <div className="text-right space-y-1 print:space-y-0.5">

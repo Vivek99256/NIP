@@ -39,14 +39,12 @@ export function Sidebar({ role, userFullName, userIdentifier, className }: Sideb
     { href: "/reports/radiology", label: "Radiology Reports", icon: FileScan },
     { href: "/reports/laboratory", label: "Laboratory Reports", icon: FlaskConical },
     { href: "/prescriptions", label: "Prescriptions", icon: Pill },
-    { href: "/appointments", label: "Appointments", icon: Calendar },
     { href: "/documents", label: "Medical Documents", icon: FolderOpen },
     { href: "/settings", label: "Settings", icon: Settings },
   ];
 
   const doctorLinks = [
     { href: "/doctor/dashboard", label: "Clinical Dashboard", icon: LayoutDashboard },
-    { href: "/doctor/appointments", label: "Assigned Appointments", icon: Calendar },
     { href: "/doctor/patients", label: "Authorized Patients", icon: Users },
     { href: "/doctor/prescriptions", label: "Manage Prescriptions", icon: Pill },
     { href: "/doctor/prescriptions/new", label: "Issue Prescription", icon: FilePlus2 },
@@ -57,7 +55,6 @@ export function Sidebar({ role, userFullName, userIdentifier, className }: Sideb
     { href: "/admin/dashboard", label: "Admin Overview", icon: LayoutDashboard },
     { href: "/admin/doctors", label: "Doctor Approvals", icon: Stethoscope },
     { href: "/admin/patients", label: "Patient Accounts", icon: Users },
-    { href: "/admin/appointments", label: "All Appointments", icon: Calendar },
     { href: "/admin/audit-logs", label: "Security & Audit Logs", icon: ShieldAlert },
     { href: "/admin/report-categories", label: "Report Categories", icon: Layers },
     { href: "/admin/settings", label: "Platform Settings", icon: Settings },
@@ -75,7 +72,7 @@ export function Sidebar({ role, userFullName, userIdentifier, className }: Sideb
           <Activity className="h-5 w-5" />
         </div>
         <div>
-          <span className="font-bold text-base tracking-tight text-slate-900 block leading-tight">MedRec</span>
+          <span className="font-bold text-base tracking-tight text-slate-900 block leading-tight">NIP Healthcare</span>
           <span className="text-[10px] font-semibold uppercase tracking-wider text-sky-600">{roleTitle}</span>
         </div>
       </div>

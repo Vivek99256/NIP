@@ -3,7 +3,7 @@ import { Toaster } from "sonner";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "MedRec — Patient Medical Record Management System",
+  title: "NIP Healthcare — Patient Medical Record Management System",
   description:
     "Secure, role-enforced electronic health records platform for patients, authorized physicians, and healthcare administrators.",
 };

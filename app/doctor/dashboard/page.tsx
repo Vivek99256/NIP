@@ -105,15 +105,15 @@ export default async function DoctorDashboardPage() {
         {/* Stats Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <StatCard
-            title="Today's Appointments"
-            value={todayAppointments.length}
-            description={`${appointments.length} total scheduled`}
-            icon={Clock}
+            title="Hospital Patients"
+            value={allPatients.length}
+            description="Total registered profiles"
+            icon={Users}
             colorScheme="teal"
           />
           <StatCard
             title="Authorized Patients"
-            value={authorizedPatients.length}
+            value={authorizedPatients.length > 0 ? authorizedPatients.length : allPatients.length}
             description="Active clinical care access"
             icon={Users}
             colorScheme="sky"
@@ -126,57 +126,67 @@ export default async function DoctorDashboardPage() {
             colorScheme="indigo"
           />
           <StatCard
-            title="Consultation Fee"
-            value={`₹${doctor.consultationFee}`}
-            description="Standard clinic slot"
-            icon={Calendar}
+            title="Clinical Practice"
+            value={doctor.specialty}
+            description={doctor.qualifications}
+            icon={Stethoscope}
             colorScheme="emerald"
           />
         </div>
 
-        {/* Two-column layout: Today's Appointments & Recent Activity */}
+        {/* Clinical Operations & Patient Directory */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Assigned Appointments */}
+          {/* Clinical Quick Actions */}
           <Card className="border-slate-200 shadow-xs">
-            <CardHeader className="flex flex-row items-center justify-between pb-3">
-              <div>
-                <CardTitle className="text-base">Assigned Appointments</CardTitle>
-                <CardDescription className="text-xs">Upcoming consultations with registered patients</CardDescription>
-              </div>
-              <Link href="/doctor/appointments">
-                <Button variant="ghost" size="sm" className="text-xs gap-1">
-                  <span>View All</span>
-                  <ArrowRight className="h-3.5 w-3.5" />
-                </Button>
-              </Link>
+            <CardHeader className="pb-3">
+              <CardTitle className="text-base">Clinical Management</CardTitle>
+              <CardDescription className="text-xs">Quick shortcuts to medical operations &amp; prescribing</CardDescription>
             </CardHeader>
-            <CardContent>
-              {appointments.length === 0 ? (
-                <p className="text-xs text-slate-500 py-6 text-center">No assigned appointments.</p>
-              ) : (
-                <div className="space-y-3">
-                  {appointments.slice(0, 4).map((apt) => (
-                    <div
-                      key={apt.id}
-                      className="p-3.5 rounded-xl border border-slate-200 bg-slate-50/60 flex items-center justify-between gap-3"
-                    >
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <span className="font-mono text-xs font-bold text-slate-900">{apt.startTime}</span>
-                          <span className="text-xs text-slate-500 font-mono">({formatDate(apt.appointmentDate)})</span>
-                          <AppointmentStatusBadge status={apt.status} />
-                        </div>
-                        <p className="text-xs font-semibold text-slate-800 mt-1">{apt.reasonForVisit}</p>
-                      </div>
-                      <Link href={`/doctor/patients/${apt.patientId}`}>
-                        <Button size="sm" variant="outline" className="text-xs h-8">
-                          Chart
-                        </Button>
-                      </Link>
+            <CardContent className="space-y-3">
+              <Link href="/doctor/prescriptions/new" className="block">
+                <div className="p-3.5 rounded-xl border border-slate-200 bg-slate-50/60 hover:bg-teal-50/50 hover:border-teal-200 transition-all flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 bg-teal-100 text-teal-800 rounded-lg">
+                      <Pill className="h-4 w-4" />
                     </div>
-                  ))}
+                    <div>
+                      <span className="font-bold text-xs text-slate-900 block">Write e-Prescription</span>
+                      <span className="text-[11px] text-slate-500">Prescribe medications and dosage schedules</span>
+                    </div>
+                  </div>
+                  <ArrowRight className="h-4 w-4 text-slate-400" />
                 </div>
-              )}
+              </Link>
+
+              <Link href="/doctor/reports" className="block">
+                <div className="p-3.5 rounded-xl border border-slate-200 bg-slate-50/60 hover:bg-sky-50/50 hover:border-sky-200 transition-all flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 bg-sky-100 text-sky-800 rounded-lg">
+                      <FileCheck2 className="h-4 w-4" />
+                    </div>
+                    <div>
+                      <span className="font-bold text-xs text-slate-900 block">Review Clinical Reports</span>
+                      <span className="text-[11px] text-slate-500">Examine patient radiology scans and lab tests</span>
+                    </div>
+                  </div>
+                  <ArrowRight className="h-4 w-4 text-slate-400" />
+                </div>
+              </Link>
+
+              <Link href="/doctor/patients" className="block">
+                <div className="p-3.5 rounded-xl border border-slate-200 bg-slate-50/60 hover:bg-indigo-50/50 hover:border-indigo-200 transition-all flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 bg-indigo-100 text-indigo-800 rounded-lg">
+                      <Users className="h-4 w-4" />
+                    </div>
+                    <div>
+                      <span className="font-bold text-xs text-slate-900 block">Patient Directory</span>
+                      <span className="text-[11px] text-slate-500">Access comprehensive electronic medical records</span>
+                    </div>
+                  </div>
+                  <ArrowRight className="h-4 w-4 text-slate-400" />
+                </div>
+              </Link>
             </CardContent>
           </Card>
 

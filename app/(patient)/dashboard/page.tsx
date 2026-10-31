@@ -13,7 +13,7 @@ import {
   FileScan,
   FlaskConical,
   Pill,
-  Calendar,
+  FolderOpen,
   AlertTriangle,
   ArrowRight,
   ShieldCheck,
@@ -21,6 +21,7 @@ import {
   Plus,
   Clock,
   MapPin,
+  FileText,
 } from "lucide-react";
 import { formatDate } from "@/lib/utils";
 
@@ -36,16 +37,12 @@ export default async function PatientDashboardPage() {
   if (!patient) redirect("/profile");
 
   // Fetch patient medical data
-  const [radiologyList, labList, rxList, appointments] = await Promise.all([
+  const [radiologyList, labList, rxList, documentsList] = await Promise.all([
     medicalRepo.getRadiologyReports(patient.id),
     medicalRepo.getLaboratoryReports(patient.id),
     medicalRepo.getPrescriptions(patient.id),
-    medicalRepo.getAppointments(patient.id),
+    medicalRepo.getMedicalDocuments(patient.id),
   ]);
-
-  const upcomingAppointment = appointments.find(
-    (a) => a.status === "CONFIRMED" || a.status === "PENDING"
-  );
 
   const completion = calculateProfileCompletion(patient);
 
@@ -69,15 +66,27 @@ export default async function PatientDashboardPage() {
               </span>
             </div>
             <p className="mt-1 text-sm text-slate-500">
-              Access your radiology imaging, structured laboratory results, and electronic prescriptions.
+              Access your radiology imaging, structured laboratory results, and medical records.
             </p>
           </div>
 
-          <div className="flex items-center gap-3">
-            <Link href="/appointments/book">
-              <Button className="gap-2 shadow-sm">
-                <Plus className="h-4 w-4" />
-                <span>Book Appointment</span>
+          <div className="flex flex-wrap items-center gap-2">
+            <Link href="/reports/radiology">
+              <Button variant="outline" size="sm" className="gap-1.5 text-xs border-slate-300 hover:bg-sky-50 hover:text-sky-700">
+                <FileScan className="h-3.5 w-3.5 text-sky-600" />
+                <span>Upload Imaging</span>
+              </Button>
+            </Link>
+            <Link href="/reports/laboratory">
+              <Button variant="outline" size="sm" className="gap-1.5 text-xs border-slate-300 hover:bg-teal-50 hover:text-teal-700">
+                <FlaskConical className="h-3.5 w-3.5 text-teal-600" />
+                <span>Upload Lab Report</span>
+              </Button>
+            </Link>
+            <Link href="/documents">
+              <Button size="sm" className="gap-1.5 text-xs bg-sky-600 hover:bg-sky-700 shadow-xs">
+                <Plus className="h-3.5 w-3.5" />
+                <span>Upload Document</span>
               </Button>
             </Link>
           </div>
@@ -131,15 +140,15 @@ export default async function PatientDashboardPage() {
             colorScheme="indigo"
           />
           <StatCard
-            title="Appointments"
-            value={appointments.length}
-            description={upcomingAppointment ? "1 upcoming" : "No active bookings"}
-            icon={Calendar}
+            title="Medical Documents"
+            value={documentsList.length}
+            description="Certificates & Discharge notes"
+            icon={FolderOpen}
             colorScheme="emerald"
           />
         </div>
 
-        {/* Main Grid: Clinical Summary & Upcoming Appointment */}
+        {/* Main Grid: Clinical Summary & Recent Records */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Medical Summary Card */}
           <Card className="lg:col-span-1 shadow-xs border-slate-200">
@@ -186,62 +195,62 @@ export default async function PatientDashboardPage() {
             </CardContent>
           </Card>
 
-          {/* Upcoming Appointment & Recent Care */}
+          {/* Recent Records & Documents */}
           <div className="lg:col-span-2 space-y-6">
-            {/* Upcoming Appointment Banner */}
-            {upcomingAppointment ? (
-              <Card className="border-sky-200 bg-gradient-to-r from-sky-50/80 via-white to-slate-50 shadow-xs">
-                <CardHeader className="pb-3">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold uppercase tracking-wider text-sky-800 flex items-center gap-1.5">
-                      <Clock className="h-4 w-4 text-sky-600" />
-                      <span>Next Scheduled Consultation</span>
-                    </span>
-                    <AppointmentStatusBadge status={upcomingAppointment.status} />
-                  </div>
-                  <CardTitle className="text-lg mt-1">{upcomingAppointment.reasonForVisit}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-                    <div>
-                      <span className="text-slate-500 block">Date &amp; Slot:</span>
-                      <span className="font-bold text-slate-900 text-sm">
-                        {formatDate(upcomingAppointment.appointmentDate)} at {upcomingAppointment.startTime}
-                      </span>
-                    </div>
-                    <div>
-                      <span className="text-slate-500 block">Consultation Type:</span>
-                      <span className="font-semibold text-slate-800">
-                        {upcomingAppointment.type === "IN_PERSON" ? "In-Person Clinic Visit" : "Online Video Consultation"}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="mt-4 pt-3 border-t border-slate-200/80 flex justify-end">
-                    <Link href="/appointments">
-                      <Button size="sm" variant="outline" className="gap-1.5 text-xs">
-                        <span>Manage Appointments</span>
-                        <ArrowRight className="h-3.5 w-3.5" />
+            {/* Recent Medical Documents Card */}
+            <Card className="border-slate-200 shadow-xs">
+              <CardHeader className="pb-3 flex flex-row items-center justify-between">
+                <div>
+                  <CardTitle className="text-base">Recent Medical Documents</CardTitle>
+                  <CardDescription className="text-xs">Discharge summaries, certificates &amp; health records</CardDescription>
+                </div>
+                <Link href="/documents">
+                  <Button variant="ghost" size="sm" className="text-xs gap-1">
+                    <span>View All</span>
+                    <ArrowRight className="h-3.5 w-3.5" />
+                  </Button>
+                </Link>
+              </CardHeader>
+              <CardContent>
+                {documentsList.length === 0 ? (
+                  <div className="text-center py-6">
+                    <p className="text-xs text-slate-500 mb-3">No medical documents uploaded yet.</p>
+                    <Link href="/documents">
+                      <Button size="sm" variant="outline" className="text-xs gap-1.5">
+                        <Plus className="h-3.5 w-3.5" />
+                        <span>Upload First Document</span>
                       </Button>
                     </Link>
                   </div>
-                </CardContent>
-              </Card>
-            ) : (
-              <Card className="border-slate-200">
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-base">No Upcoming Appointments</CardTitle>
-                  <CardDescription className="text-xs">Schedule a visit with your primary doctor or specialist.</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <Link href="/appointments/book">
-                    <Button size="sm" className="gap-1.5">
-                      <Calendar className="h-4 w-4" />
-                      <span>Find a Doctor &amp; Book Slot</span>
-                    </Button>
-                  </Link>
-                </CardContent>
-              </Card>
-            )}
+                ) : (
+                  <div className="space-y-2.5">
+                    {documentsList.slice(0, 3).map((doc) => (
+                      <div
+                        key={doc.id}
+                        className="p-3 rounded-xl border border-slate-200 bg-slate-50/50 flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className="p-2 bg-purple-50 text-purple-700 rounded-lg">
+                            <FileText className="h-4 w-4" />
+                          </div>
+                          <div>
+                            <span className="font-bold text-xs text-slate-900 block">{doc.title}</span>
+                            <span className="text-[11px] text-slate-500 font-mono">
+                              {formatDate(doc.documentDate)} • {doc.category.replace(/_/g, " ")}
+                            </span>
+                          </div>
+                        </div>
+                        <Link href="/documents">
+                          <Button size="sm" variant="ghost" className="h-7 text-xs text-sky-700">
+                            View Document
+                          </Button>
+                        </Link>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
 
             {/* Recent Prescriptions Preview */}
             <Card className="border-slate-200 shadow-xs">

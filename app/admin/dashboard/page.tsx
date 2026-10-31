@@ -88,10 +88,10 @@ export default async function AdminDashboardPage() {
             colorScheme="teal"
           />
           <StatCard
-            title="Consultation Slots"
-            value={appointments.length}
-            description="Total scheduled platform visits"
-            icon={Calendar}
+            title="Hospital Care Team"
+            value={doctors.length}
+            description="Specialists & clinical practitioners"
+            icon={Activity}
             colorScheme="emerald"
           />
           <StatCard

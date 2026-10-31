@@ -588,6 +588,50 @@ export class MedicalDataRepository {
     patientId: string,
     filters?: { category?: string; search?: string }
   ): Promise<MockRadiologyReport[]> {
+    const isDb = await checkDatabaseConnection();
+    if (isDb) {
+      try {
+        const whereClause: any = { patientId };
+        if (filters?.category && filters.category !== "ALL") {
+          whereClause.category = filters.category;
+        }
+        const reports = await prisma.radiologyReport.findMany({
+          where: whereClause,
+          include: { files: true },
+          orderBy: { reportDate: "desc" },
+        });
+        if (reports.length > 0) {
+          let list: MockRadiologyReport[] = reports.map((r) => ({
+            id: r.id,
+            patientId: r.patientId,
+            category: r.category as any,
+            testDate: r.testDate.toISOString(),
+            reportDate: r.reportDate.toISOString(),
+            diagnosticCentre: r.diagnosticCentre,
+            radiologistName: r.radiologistName,
+            findings: r.findings,
+            clinicalNotes: r.clinicalNotes || undefined,
+            pdfFileId: r.files[0]?.storageKey || undefined,
+            createdById: r.createdById,
+            createdAt: r.createdAt.toISOString(),
+            updatedAt: r.updatedAt.toISOString(),
+          }));
+          if (filters?.search) {
+            const q = filters.search.toLowerCase();
+            list = list.filter(
+              (r) =>
+                r.findings.toLowerCase().includes(q) ||
+                r.diagnosticCentre.toLowerCase().includes(q) ||
+                r.radiologistName.toLowerCase().includes(q)
+            );
+          }
+          return list;
+        }
+      } catch (err) {
+        console.error("Prisma getRadiologyReports error:", err);
+      }
+    }
+
     let list = Array.from(devStore.radiologyReports.values()).filter((r) => r.patientId === patientId);
 
     if (filters?.category && filters.category !== "ALL") {
@@ -609,6 +653,34 @@ export class MedicalDataRepository {
   }
 
   async getRadiologyReportById(id: string): Promise<MockRadiologyReport | null> {
+    const isDb = await checkDatabaseConnection();
+    if (isDb) {
+      try {
+        const r = await prisma.radiologyReport.findUnique({
+          where: { id },
+          include: { files: true },
+        });
+        if (r) {
+          return {
+            id: r.id,
+            patientId: r.patientId,
+            category: r.category as any,
+            testDate: r.testDate.toISOString(),
+            reportDate: r.reportDate.toISOString(),
+            diagnosticCentre: r.diagnosticCentre,
+            radiologistName: r.radiologistName,
+            findings: r.findings,
+            clinicalNotes: r.clinicalNotes || undefined,
+            pdfFileId: r.files[0]?.storageKey || undefined,
+            createdById: r.createdById,
+            createdAt: r.createdAt.toISOString(),
+            updatedAt: r.updatedAt.toISOString(),
+          };
+        }
+      } catch (err) {
+        console.error("Prisma getRadiologyReportById error:", err);
+      }
+    }
     return devStore.radiologyReports.get(id) || null;
   }
 
@@ -621,6 +693,46 @@ export class MedicalDataRepository {
       createdAt: now,
       updatedAt: now,
     };
+
+    const isDb = await checkDatabaseConnection();
+    if (isDb) {
+      try {
+        await prisma.radiologyReport.create({
+          data: {
+            id,
+            patientId: data.patientId,
+            category: data.category as any,
+            testDate: new Date(data.testDate),
+            reportDate: new Date(data.reportDate),
+            diagnosticCentre: data.diagnosticCentre,
+            radiologistName: data.radiologistName,
+            findings: data.findings,
+            clinicalNotes: data.clinicalNotes || "",
+            createdById: data.createdById,
+            ...(data.pdfFileId
+              ? {
+                  files: {
+                    create: {
+                      id: `file-${id}`,
+                      storageKey: data.pdfFileId,
+                      originalFilename: `Radiology_${data.category}.pdf`,
+                      mimeType: data.pdfFileId.endsWith(".pdf") ? "application/pdf" : "image/jpeg",
+                      fileSize: 1024,
+                      storageProvider: "LOCAL",
+                      uploadedById: data.createdById,
+                      associatedEntityType: "RadiologyReport",
+                      associatedEntityId: id,
+                    },
+                  },
+                }
+              : {}),
+          },
+        });
+      } catch (err) {
+        console.error("Prisma createRadiologyReport error:", err);
+      }
+    }
+
     devStore.radiologyReports.set(id, report);
     devStore.persist();
     return report;
@@ -634,6 +746,58 @@ export class MedicalDataRepository {
     patientId: string,
     filters?: { category?: string; search?: string }
   ): Promise<MockLaboratoryReport[]> {
+    const isDb = await checkDatabaseConnection();
+    if (isDb) {
+      try {
+        const whereClause: any = { patientId };
+        if (filters?.category && filters.category !== "ALL") {
+          whereClause.category = filters.category;
+        }
+        const reports = await prisma.laboratoryReport.findMany({
+          where: whereClause,
+          include: { results: true, files: true },
+          orderBy: { reportDate: "desc" },
+        });
+        if (reports.length > 0) {
+          let list: MockLaboratoryReport[] = reports.map((l) => ({
+            id: l.id,
+            patientId: l.patientId,
+            category: l.category as any,
+            testDate: l.testDate.toISOString(),
+            reportDate: l.reportDate.toISOString(),
+            laboratoryName: l.laboratoryName,
+            findings: l.findings,
+            doctorNotes: l.doctorNotes || undefined,
+            pdfFileId: l.files[0]?.storageKey || undefined,
+            results: l.results.map((r) => ({
+              id: r.id,
+              reportId: r.reportId,
+              testName: r.testName,
+              resultValue: r.resultValue,
+              unit: r.unit,
+              referenceRange: r.referenceRange || "",
+              abnormalityFlag: r.abnormalityFlag as any,
+            })),
+            createdById: l.createdById,
+            createdAt: l.createdAt.toISOString(),
+            updatedAt: l.updatedAt.toISOString(),
+          }));
+          if (filters?.search) {
+            const q = filters.search.toLowerCase();
+            list = list.filter(
+              (l) =>
+                l.findings.toLowerCase().includes(q) ||
+                l.laboratoryName.toLowerCase().includes(q) ||
+                l.results.some((r) => r.testName.toLowerCase().includes(q))
+            );
+          }
+          return list;
+        }
+      } catch (err) {
+        console.error("Prisma getLaboratoryReports error:", err);
+      }
+    }
+
     let list = Array.from(devStore.laboratoryReports.values()).filter((l) => l.patientId === patientId);
 
     if (filters?.category && filters.category !== "ALL") {
@@ -654,6 +818,42 @@ export class MedicalDataRepository {
   }
 
   async getLaboratoryReportById(id: string): Promise<MockLaboratoryReport | null> {
+    const isDb = await checkDatabaseConnection();
+    if (isDb) {
+      try {
+        const l = await prisma.laboratoryReport.findUnique({
+          where: { id },
+          include: { results: true, files: true },
+        });
+        if (l) {
+          return {
+            id: l.id,
+            patientId: l.patientId,
+            category: l.category as any,
+            testDate: l.testDate.toISOString(),
+            reportDate: l.reportDate.toISOString(),
+            laboratoryName: l.laboratoryName,
+            findings: l.findings,
+            doctorNotes: l.doctorNotes || undefined,
+            pdfFileId: l.files[0]?.storageKey || undefined,
+            results: l.results.map((r) => ({
+              id: r.id,
+              reportId: r.reportId,
+              testName: r.testName,
+              resultValue: r.resultValue,
+              unit: r.unit,
+              referenceRange: r.referenceRange || "",
+              abnormalityFlag: r.abnormalityFlag as any,
+            })),
+            createdById: l.createdById,
+            createdAt: l.createdAt.toISOString(),
+            updatedAt: l.updatedAt.toISOString(),
+          };
+        }
+      } catch (err) {
+        console.error("Prisma getLaboratoryReportById error:", err);
+      }
+    }
     return devStore.laboratoryReports.get(id) || null;
   }
 
@@ -666,6 +866,67 @@ export class MedicalDataRepository {
       createdAt: now,
       updatedAt: now,
     };
+
+    const isDb = await checkDatabaseConnection();
+    if (isDb) {
+      try {
+        const validCategories = [
+          "CBC",
+          "BLOOD_SUGAR",
+          "KIDNEY_FUNCTION_TEST",
+          "LIVER_FUNCTION_TEST",
+          "URINE_TEST",
+          "HISTOPATHOLOGY",
+          "HIV_TEST",
+          "HBSAG_TEST",
+          "BIOPSY",
+        ];
+        const cat = validCategories.includes(data.category) ? data.category : "OTHER";
+        await prisma.laboratoryReport.create({
+          data: {
+            id,
+            patientId: data.patientId,
+            category: cat as any,
+            testDate: new Date(data.testDate),
+            reportDate: new Date(data.reportDate),
+            laboratoryName: data.laboratoryName,
+            findings: data.findings,
+            doctorNotes: data.doctorNotes || "",
+            createdById: data.createdById,
+            ...(data.pdfFileId
+              ? {
+                  files: {
+                    create: {
+                      id: `file-${id}`,
+                      storageKey: data.pdfFileId,
+                      originalFilename: `LabReport_${data.category}.pdf`,
+                      mimeType: data.pdfFileId.endsWith(".pdf") ? "application/pdf" : "image/jpeg",
+                      fileSize: 1024,
+                      storageProvider: "LOCAL",
+                      uploadedById: data.createdById,
+                      associatedEntityType: "LaboratoryReport",
+                      associatedEntityId: id,
+                    },
+                  },
+                }
+              : {}),
+            results: {
+              create: (data.results || []).map((r) => ({
+                id: r.id || `res-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
+                testName: r.testName,
+                resultValue: r.resultValue,
+                unit: r.unit,
+                referenceRange: r.referenceRange || "",
+                abnormalityFlag: (r.abnormalityFlag as any) || "NORMAL",
+              })),
+            },
+          },
+        });
+      } catch (err) {
+        console.error("Prisma createLaboratoryReport error:", err);
+      }
+    }
+
     devStore.laboratoryReports.set(id, report);
     devStore.persist();
     return report;

@@ -69,7 +69,7 @@ export class ProductionSmsProvider implements SmsProvider {
   constructor(providerName: string = "SMS_GATEWAY") {
     this.providerName = providerName;
     this.apiKey = process.env.SMS_PROVIDER_API_KEY || "";
-    this.senderId = process.env.SMS_SENDER_ID || "MEDREC";
+    this.senderId = process.env.SMS_SENDER_ID || "NIP";
   }
 
   async sendOtp(mobileNumber: string, otp: string): Promise<SmsSendResult> {
@@ -130,7 +130,7 @@ export class ProductionSmsProvider implements SmsProvider {
         const params = new URLSearchParams();
         params.append("To", mobileNumber);
         params.append("From", fromNumber);
-        params.append("Body", `Your MedRec verification code is: ${otp}. Valid for 5 minutes.`);
+        params.append("Body", `Your NIP Healthcare verification code is: ${otp}. Valid for 5 minutes.`);
 
         const response = await fetch(
           `https://api.twilio.com/2010-04-01/Accounts/${accountSid}/Messages.json`,

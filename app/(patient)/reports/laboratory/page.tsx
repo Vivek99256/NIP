@@ -48,7 +48,12 @@ export default async function LaboratoryReportsPage(props: Props) {
           </div>
         </div>
 
-        <LaboratoryReportList reports={reports} selectedCategory={params.category || "ALL"} />
+        <LaboratoryReportList
+          reports={reports}
+          selectedCategory={params.category || "ALL"}
+          patientId={patient.id}
+          canUpload={true}
+        />
       </div>
     </AppShell>
   );

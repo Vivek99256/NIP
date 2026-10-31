@@ -208,7 +208,7 @@ export default async function PrescriptionDetailPage(props: Props) {
             {/* Signature & Disclaimer Block */}
             <div className="pt-12 mt-8 border-t border-slate-200 flex flex-col sm:flex-row items-end justify-between text-xs text-slate-500 gap-6">
               <div className="space-y-1 text-[11px]">
-                <p>Generated via MedRec Electronic Prescription Infrastructure</p>
+                <p>Generated via NIP Healthcare Electronic Prescription Infrastructure</p>
                 <p>This is a tamper-evident digital prescription verified by registered practitioner</p>
               </div>
 
