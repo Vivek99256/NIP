@@ -113,10 +113,30 @@ export function DocumentPreviewModal({
                   className="w-full h-[70vh] rounded-xl border border-slate-300 shadow-sm bg-white"
                 />
               )}
-              {mockContent?.notes && (
-                <div className="w-full max-w-2xl bg-white p-4 rounded-xl border border-slate-200 text-xs text-slate-700 shadow-xs">
-                  <span className="font-bold text-slate-900 block mb-1">Notes / Description:</span>
-                  <p className="whitespace-pre-wrap">{mockContent.notes}</p>
+              {(mockContent?.findings || mockContent?.notes || mockContent?.radiologist || mockContent?.laboratory) && (
+                <div className="w-full max-w-2xl bg-white p-4 rounded-xl border border-slate-200 text-xs text-slate-700 shadow-xs space-y-2">
+                  <div className="flex items-center justify-between border-b pb-2 text-[11px] text-slate-500">
+                    <span className="font-semibold text-slate-700">
+                      {mockContent.laboratory
+                        ? `Laboratory: ${mockContent.laboratory}`
+                        : mockContent.radiologist
+                        ? `Radiologist: ${mockContent.radiologist}`
+                        : "Diagnostic Record"}
+                    </span>
+                    {date && <span>Date: {date}</span>}
+                  </div>
+                  {mockContent.findings && (
+                    <div>
+                      <span className="font-bold text-slate-900 block mb-0.5">Clinical Findings:</span>
+                      <p className="whitespace-pre-wrap text-slate-800">{mockContent.findings}</p>
+                    </div>
+                  )}
+                  {mockContent.notes && (
+                    <div>
+                      <span className="font-bold text-slate-900 block mb-0.5">Notes / Clinical Description:</span>
+                      <p className="whitespace-pre-wrap text-slate-600">{mockContent.notes}</p>
+                    </div>
+                  )}
                 </div>
               )}
             </div>

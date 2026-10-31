@@ -24,6 +24,8 @@ import {
   Clock,
   Activity,
   FileCheck2,
+  Eye,
+  Download,
 } from "lucide-react";
 import { formatDate } from "@/lib/utils";
 import { PrintButton } from "@/components/prescriptions/print-button";
@@ -209,56 +211,117 @@ export default async function LaboratoryDetailPage(props: Props) {
               </div>
             </div>
 
+            {/* Attached Laboratory Scan / Document */}
+            {report.pdfFileId && (
+              <div className="space-y-3 rounded-2xl border-2 border-teal-200 bg-teal-50/40 p-5 shadow-xs">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                  <div className="flex items-center gap-2">
+                    <div className="p-1.5 rounded-lg bg-teal-600 text-white">
+                      <FlaskConical className="h-4 w-4" />
+                    </div>
+                    <div>
+                      <h4 className="text-xs font-bold uppercase tracking-wider text-slate-900">
+                        Attached Diagnostic Report / Examination Film
+                      </h4>
+                      <p className="text-[11px] text-slate-500">
+                        Original document or scan uploaded for this medical evaluation
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2 no-print">
+                    <a
+                      href={`/api/documents/download?key=${encodeURIComponent(report.pdfFileId)}&inline=true`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Button size="sm" variant="outline" className="h-7 text-xs gap-1 border-teal-300 text-teal-800 hover:bg-teal-100">
+                        <Eye className="h-3.5 w-3.5" />
+                        <span>Open Full Screen</span>
+                      </Button>
+                    </a>
+                    <a
+                      href={`/api/documents/download?key=${encodeURIComponent(report.pdfFileId)}`}
+                      download
+                    >
+                      <Button size="sm" variant="outline" className="h-7 text-xs gap-1 border-slate-300 text-slate-700 hover:bg-slate-100">
+                        <Download className="h-3.5 w-3.5" />
+                        <span>Download</span>
+                      </Button>
+                    </a>
+                  </div>
+                </div>
+
+                <div className="flex justify-center items-center bg-slate-900/5 rounded-xl p-3 border border-slate-200 overflow-hidden">
+                  {/\.(jpg|jpeg|png|webp)$/i.test(report.pdfFileId) ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={`/api/documents/download?key=${encodeURIComponent(report.pdfFileId)}&inline=true`}
+                      alt="Laboratory Scan"
+                      className="max-h-[550px] w-auto max-w-full rounded-lg object-contain shadow-md bg-white border border-slate-200"
+                    />
+                  ) : (
+                    <iframe
+                      src={`/api/documents/download?key=${encodeURIComponent(report.pdfFileId)}&inline=true`}
+                      title="Laboratory Document"
+                      className="w-full h-[550px] rounded-lg border border-slate-200 bg-white"
+                    />
+                  )}
+                </div>
+              </div>
+            )}
+
             {/* Structured Results Table */}
-            <div className="rounded-xl border border-slate-200 overflow-hidden shadow-xs">
-              <Table>
-                <TableHeader>
-                  <TableRow className="bg-slate-100/90 text-slate-700 hover:bg-slate-100">
-                    <TableHead className="font-bold text-xs print:text-[10px] text-slate-900 w-1/3 print:py-1">Diagnostic Parameter</TableHead>
-                    <TableHead className="font-bold text-xs print:text-[10px] text-slate-900 print:py-1">Observed Value</TableHead>
-                    <TableHead className="font-bold text-xs print:text-[10px] text-slate-900 print:py-1">Standard Unit</TableHead>
-                    <TableHead className="font-bold text-xs print:text-[10px] text-slate-900 print:py-1">Biological Reference Interval</TableHead>
-                    <TableHead className="font-bold text-xs print:text-[10px] text-slate-900 text-right print:py-1">Evaluation Status</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {report.results.map((res, index) => {
-                    const isAbnormal = res.abnormalityFlag && res.abnormalityFlag !== "NORMAL";
-                    return (
-                      <TableRow
-                        key={res.id || index}
-                        className={`transition-colors ${
-                          isAbnormal ? "bg-amber-50/50 hover:bg-amber-50" : "hover:bg-slate-50/80"
-                        }`}
-                      >
-                        <TableCell className="py-3 print:py-1">
-                          <span className="font-bold text-slate-900 text-xs print:text-[10px] block">{res.testName}</span>
-                          <span className="text-[10px] print:text-[8px] text-slate-400 font-mono">Automated Photometric Analysis</span>
-                        </TableCell>
-                        <TableCell className="py-3 print:py-1">
-                          <span
-                            className={`font-mono font-black text-sm print:text-xs px-2 print:px-1 py-0.5 print:py-0 rounded ${
-                              isAbnormal
-                                ? "text-amber-900 bg-amber-100/80 border border-amber-300"
-                                : "text-slate-900 font-bold"
-                            }`}
-                          >
-                            {res.resultValue}
-                          </span>
-                        </TableCell>
-                        <TableCell className="py-3 print:py-1 text-xs print:text-[10px] font-mono text-slate-600">{res.unit}</TableCell>
-                        <TableCell className="py-3 print:py-1 text-xs print:text-[10px] font-mono text-slate-700 font-medium">
-                          {res.referenceRange || "Standard reference"}
-                        </TableCell>
-                        <TableCell className="py-3 print:py-1 text-right">
-                          <AbnormalityFlagBadge flag={res.abnormalityFlag} />
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
-                </TableBody>
-              </Table>
-            </div>
+            {report.results.length > 0 && (
+              <div className="rounded-xl border border-slate-200 overflow-hidden shadow-xs">
+                <Table>
+                  <TableHeader>
+                    <TableRow className="bg-slate-100/90 text-slate-700 hover:bg-slate-100">
+                      <TableHead className="font-bold text-xs print:text-[10px] text-slate-900 w-1/3 print:py-1">Diagnostic Parameter</TableHead>
+                      <TableHead className="font-bold text-xs print:text-[10px] text-slate-900 print:py-1">Observed Value</TableHead>
+                      <TableHead className="font-bold text-xs print:text-[10px] text-slate-900 print:py-1">Standard Unit</TableHead>
+                      <TableHead className="font-bold text-xs print:text-[10px] text-slate-900 print:py-1">Biological Reference Interval</TableHead>
+                      <TableHead className="font-bold text-xs print:text-[10px] text-slate-900 text-right print:py-1">Evaluation Status</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {report.results.map((res, index) => {
+                      const isAbnormal = res.abnormalityFlag && res.abnormalityFlag !== "NORMAL";
+                      return (
+                        <TableRow
+                          key={res.id || index}
+                          className={`transition-colors ${
+                            isAbnormal ? "bg-amber-50/50 hover:bg-amber-50" : "hover:bg-slate-50/80"
+                          }`}
+                        >
+                          <TableCell className="py-3 print:py-1">
+                            <span className="font-bold text-slate-900 text-xs print:text-[10px] block">{res.testName}</span>
+                            <span className="text-[10px] print:text-[8px] text-slate-400 font-mono">Automated Photometric Analysis</span>
+                          </TableCell>
+                          <TableCell className="py-3 print:py-1">
+                            <span
+                              className={`font-mono font-black text-sm print:text-xs px-2 print:px-1 py-0.5 print:py-0 rounded ${
+                                isAbnormal
+                                  ? "text-amber-900 bg-amber-100/80 border border-amber-300"
+                                  : "text-slate-900 font-bold"
+                              }`}
+                            >
+                              {res.resultValue}
+                            </span>
+                          </TableCell>
+                          <TableCell className="py-3 print:py-1 text-xs print:text-[10px] font-mono text-slate-600">{res.unit}</TableCell>
+                          <TableCell className="py-3 print:py-1 text-xs print:text-[10px] font-mono text-slate-700 font-medium">
+                            {res.referenceRange || "Standard reference"}
+                          </TableCell>
+                          <TableCell className="py-3 print:py-1 text-right">
+                            <AbnormalityFlagBadge flag={res.abnormalityFlag} />
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
+                  </TableBody>
+                </Table>
+              </div>
+            )}
 
             {/* Pathologist Clinical Interpretation */}
             <div className="space-y-2 print:space-y-1 rounded-xl bg-slate-50 p-4 print:p-2 border border-slate-200">

@@ -292,21 +292,49 @@ export class SupabaseStorageProvider implements StorageProvider {
   }
 
   async getFileStream(storageKey: string): Promise<{ stream: Buffer; mimeType: string; filename: string }> {
-    const fileUrl = `${this.supabaseUrl}/storage/v1/object/public/${this.bucket}/${encodeURIComponent(storageKey)}`;
-    const res = await fetch(fileUrl);
-    if (!res.ok) {
-      // Fallback check in local directory
-      const localFallback = new LocalStorageProvider();
-      return localFallback.getFileStream(storageKey);
+    const ext = path.extname(storageKey).toLowerCase();
+    let defaultMime = "application/octet-stream";
+    if (ext === ".png") defaultMime = "image/png";
+    else if (ext === ".jpg" || ext === ".jpeg") defaultMime = "image/jpeg";
+    else if (ext === ".webp") defaultMime = "image/webp";
+    else if (ext === ".pdf") defaultMime = "application/pdf";
+
+    // 1. Try authenticated Supabase download endpoint
+    let res = await fetch(
+      `${this.supabaseUrl}/storage/v1/object/authenticated/${this.bucket}/${encodeURIComponent(storageKey)}`,
+      {
+        headers: {
+          apikey: this.apiKey,
+          Authorization: `Bearer ${this.apiKey}`,
+        },
+      }
+    ).catch(() => null);
+
+    // 2. If authenticated failed, try public endpoint
+    if (!res || !res.ok) {
+      res = await fetch(
+        `${this.supabaseUrl}/storage/v1/object/public/${this.bucket}/${encodeURIComponent(storageKey)}`
+      ).catch(() => null);
     }
-    const arrayBuffer = await res.arrayBuffer();
-    const stream = Buffer.from(arrayBuffer);
-    const mimeType = res.headers.get("content-type") || "application/octet-stream";
-    return {
-      stream,
-      mimeType,
-      filename: path.basename(storageKey),
-    };
+
+    // 3. If Supabase succeeded, return stream
+    if (res && res.ok) {
+      const arrayBuffer = await res.arrayBuffer();
+      const stream = Buffer.from(arrayBuffer);
+      let mimeType = res.headers.get("content-type") || defaultMime;
+      if (mimeType === "application/octet-stream" || !mimeType) {
+        mimeType = defaultMime;
+      }
+      return {
+        stream,
+        mimeType,
+        filename: path.basename(storageKey),
+      };
+    }
+
+    // 4. Local fallback check
+    const localFallback = new LocalStorageProvider();
+    return localFallback.getFileStream(storageKey);
   }
 
   async deleteFile(storageKey: string): Promise<void> {

@@ -20,6 +20,8 @@ import {
   Activity,
   Layers,
   Sparkles,
+  Eye,
+  Download,
 } from "lucide-react";
 import { formatDate } from "@/lib/utils";
 import { PrintButton } from "@/components/prescriptions/print-button";
@@ -211,6 +213,65 @@ export default async function RadiologyDetailPage(props: Props) {
                 </p>
               </div>
             </div>
+
+            {/* Attached Diagnostic Scan / Film */}
+            {report.pdfFileId && (
+              <div className="space-y-3 rounded-2xl border-2 border-sky-200 bg-sky-50/40 p-5 shadow-xs">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                  <div className="flex items-center gap-2">
+                    <div className="p-1.5 rounded-lg bg-sky-600 text-white">
+                      <FileScan className="h-4 w-4" />
+                    </div>
+                    <div>
+                      <h4 className="text-xs font-bold uppercase tracking-wider text-slate-900">
+                        Attached Diagnostic Scan / Examination Film
+                      </h4>
+                      <p className="text-[11px] text-slate-500">
+                        High-resolution digital image attached to this medical examination
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2 no-print">
+                    <a
+                      href={`/api/documents/download?key=${encodeURIComponent(report.pdfFileId)}&inline=true`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Button size="sm" variant="outline" className="h-7 text-xs gap-1 border-sky-300 text-sky-800 hover:bg-sky-100">
+                        <Eye className="h-3.5 w-3.5" />
+                        <span>Open Full Screen</span>
+                      </Button>
+                    </a>
+                    <a
+                      href={`/api/documents/download?key=${encodeURIComponent(report.pdfFileId)}`}
+                      download
+                    >
+                      <Button size="sm" variant="outline" className="h-7 text-xs gap-1 border-slate-300 text-slate-700 hover:bg-slate-100">
+                        <Download className="h-3.5 w-3.5" />
+                        <span>Download</span>
+                      </Button>
+                    </a>
+                  </div>
+                </div>
+
+                <div className="flex justify-center items-center bg-slate-900/5 rounded-xl p-3 border border-slate-200 overflow-hidden">
+                  {/\.(jpg|jpeg|png|webp)$/i.test(report.pdfFileId) ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={`/api/documents/download?key=${encodeURIComponent(report.pdfFileId)}&inline=true`}
+                      alt="Diagnostic Scan"
+                      className="max-h-[550px] w-auto max-w-full rounded-lg object-contain shadow-md bg-white border border-slate-200"
+                    />
+                  ) : (
+                    <iframe
+                      src={`/api/documents/download?key=${encodeURIComponent(report.pdfFileId)}&inline=true`}
+                      title="Diagnostic Scan Document"
+                      className="w-full h-[550px] rounded-lg border border-slate-200 bg-white"
+                    />
+                  )}
+                </div>
+              </div>
+            )}
 
             {/* Detailed Findings Section */}
             <div className="space-y-3 print:space-y-1">

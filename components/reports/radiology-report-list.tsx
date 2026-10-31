@@ -230,9 +230,19 @@ export function RadiologyReportList({
         <DocumentPreviewModal
           isOpen={!!previewReport}
           onClose={() => setPreviewReport(null)}
-          title={`${previewReport.category.replace(/_/g, " ")} Report`}
+          title={`${previewReport.category.replace(/_/g, " ")} Report - ${previewReport.diagnosticCentre}`}
           category={previewReport.category}
           date={formatDate(previewReport.reportDate)}
+          fileUrl={
+            previewReport.pdfFileId
+              ? `/api/documents/download?key=${encodeURIComponent(previewReport.pdfFileId)}&inline=true`
+              : undefined
+          }
+          fileType={
+            previewReport.pdfFileId && /\.(jpg|jpeg|png|webp)$/i.test(previewReport.pdfFileId)
+              ? "image"
+              : "pdf"
+          }
           mockContent={{
             radiologist: previewReport.radiologistName,
             findings: previewReport.findings,
